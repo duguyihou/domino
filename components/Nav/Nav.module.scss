@@ -1,0 +1,17 @@
+.container {
+  @apply bg-black p-4 flex-row;
+  ul {
+    @apply inline-block flex-row justify-center w-64;
+  }
+}
+
+.logo {
+  @apply text-white;
+}
+
+.navLink {
+  @apply inline-block mr-2 justify-center;
+  a {
+    @apply text-white;
+  }
+}

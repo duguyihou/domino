@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
+import Nav from '../components/Nav/Nav'
 
 const Home: NextPage = () => {
   return (
@@ -12,6 +13,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main >
+        <Nav />
        <div className='text-6xl ' >hello domino</div>
       </main>
 

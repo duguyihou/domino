@@ -1,0 +1,7 @@
+{
+  "scss.lint.unknownAtRules": "ignore",
+  "editor.formatOnSave": true,
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}
