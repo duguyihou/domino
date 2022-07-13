@@ -1,9 +1,7 @@
 import React from 'react'
 
-import Image from 'next/image'
 import Link from 'next/link'
 
-// import logoSrc from '../../public/logo.png'
 import { Logo } from './Logo'
 import styles from './Nav.module.scss'
 import { NavLinkProps } from './Nav.types'
@@ -19,10 +17,6 @@ const NavLink = (navLinkProps: NavLinkProps) => {
     </li>
   )
 }
-
-// const Logo = () => {
-//   return <Image src={logoSrc} width={24} height={24} alt="logo" />
-// }
 
 const navlinks = [
   {
