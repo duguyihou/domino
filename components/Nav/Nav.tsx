@@ -3,9 +3,11 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import logo from '../../assets/logo'
+// import logoSrc from '../../public/logo.png'
+import { Logo } from './Logo'
 import styles from './Nav.module.scss'
 import { NavLinkProps } from './Nav.types'
+import SearchBar from './SearchBar/SearchBar'
 
 const NavLink = (navLinkProps: NavLinkProps) => {
   const { placeholder, href } = navLinkProps
@@ -18,9 +20,9 @@ const NavLink = (navLinkProps: NavLinkProps) => {
   )
 }
 
-const Logo = () => {
-  return <Image src={logo} width={24} height={24} alt="logo" />
-}
+// const Logo = () => {
+//   return <Image src={logoSrc} width={24} height={24} alt="logo" />
+// }
 
 const navlinks = [
   {
@@ -40,6 +42,7 @@ const Nav = () => {
   return (
     <nav className={styles.container}>
       <Logo />
+      <SearchBar />
       <ul>
         {navlinks.map(({ placeholder, href }) => (
           <NavLink key={placeholder} placeholder={placeholder} href={href} />
