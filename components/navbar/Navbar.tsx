@@ -2,8 +2,8 @@ import React from 'react'
 
 import Link from 'next/link'
 
+import styles from './/Navbar.module.scss'
 import { Logo } from './logo'
-import styles from './Navbar.module.scss'
 import { NavLinkProps } from './Navbar.types'
 import { SearchBar } from './searchBar'
 
