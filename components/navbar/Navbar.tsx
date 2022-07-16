@@ -2,10 +2,10 @@ import React from 'react'
 
 import Link from 'next/link'
 
-import { Logo } from './Logo'
-import styles from './Nav.module.scss'
-import { NavLinkProps } from './Nav.types'
-import SearchBar from './SearchBar/SearchBar'
+import styles from './/Navbar.module.scss'
+import { Logo } from './logo'
+import { NavLinkProps } from './Navbar.types'
+import { SearchBar } from './searchBar'
 
 const NavLink = (navLinkProps: NavLinkProps) => {
   const { placeholder, href } = navLinkProps

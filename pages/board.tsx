@@ -3,11 +3,12 @@ import React, { useState } from 'react'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 
-import { Card } from '../components/Card'
-import { Column } from '../components/Column'
+import { Card } from '../components/card'
+import { Column } from '../components/column'
 import styles from '../styles/board.module.scss'
 import { Issue } from '../types'
 import { issues } from '../utils/constants'
+
 const columns = ['ToDo', 'InProgress', 'AwaitingReview', 'Done']
 
 const Board = () => {
