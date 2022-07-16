@@ -7,7 +7,7 @@ import { ColumnProps } from './Column.types'
 
 const Column = (columnProps: ColumnProps) => {
   const { children, title } = columnProps
-  const [{ isOver, canDrop }, drop] = useDrop({
+  const dragObject = {
     accept: 'Our first type',
     drop: () => ({ name: title }),
     collect: (monitor) => ({
@@ -28,16 +28,11 @@ const Column = (columnProps: ColumnProps) => {
           title === ColumnName.AwaitingReview)
       )
     },
-  })
+  }
+  const [{ isOver, canDrop }, drop] = useDrop(dragObject)
   const getBackgroundColor = () => {
     if (isOver) {
-      if (canDrop) {
-        return 'rgb(188,251,255)'
-      } else if (!canDrop) {
-        return 'rgb(255,188,188)'
-      }
-    } else {
-      return ''
+      return canDrop ? 'rgb(188,251,255)' : 'rgb(255,188,188)'
     }
   }
   return (

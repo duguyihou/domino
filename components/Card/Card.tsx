@@ -2,25 +2,22 @@ import React, { useRef } from 'react'
 
 import { useDrag, useDrop } from 'react-dnd'
 
-import { ColumnName } from '../../utils/constants'
-import { MovableCardProps } from './MovableCard.types'
+import { Task } from '../../pages/board'
+import { CardProps } from './Card.types'
 
-const MovableCard = (movableCardProps: MovableCardProps) => {
+const Card = (cardProps: CardProps) => {
   const { name, index, currentColumnName, moveCardHandler, setItems } =
-    movableCardProps
-
-  const changeItemColumn = (currentItem, columnName) => {
-    setItems((prevState) => {
-      return prevState.map((e) => ({
+    cardProps
+  const changeItemColumn = (currentItem: Task, columnName: string) =>
+    setItems((prevState) =>
+      prevState.map((e) => ({
         ...e,
         column: e.name === currentItem.name ? columnName : e.column,
       }))
-    })
-  }
+    )
 
   const ref = useRef<HTMLDivElement | null>(null)
-
-  const [, drop] = useDrop({
+  const dragObject = {
     accept: 'Our first type',
     hover(item, monitor) {
       if (!ref.current) return
@@ -39,32 +36,17 @@ const MovableCard = (movableCardProps: MovableCardProps) => {
       moveCardHandler(dragIndex, hoverIndex)
       item.index = hoverIndex
     },
-  })
+  }
+  const [, drop] = useDrop(dragObject)
 
   const [{ isDragging }, drag] = useDrag({
     item: { index, name, currentColumnName },
     type: 'Our first type',
-    end: (item, monitor) => {
-      const dropResult = monitor.getDropResult()
-      if (dropResult) {
-        const { name } = dropResult
-        switch (name) {
-          case ColumnName.InProgress:
-            changeItemColumn(item, ColumnName.InProgress)
-            break
-          case ColumnName.AwaitingReview:
-            changeItemColumn(item, ColumnName.AwaitingReview)
-            break
-          case ColumnName.Done:
-            changeItemColumn(item, ColumnName.Done)
-            break
-          case ColumnName.ToDo:
-            changeItemColumn(item, ColumnName.ToDo)
-            break
-          default:
-            break
-        }
-      }
+    end: (item: Task, monitor) => {
+      const dropResult = monitor.getDropResult<Task>()
+      if (!dropResult) return
+      const { name } = dropResult
+      changeItemColumn(item, name)
     },
     collect: (monitor) => ({ isDragging: monitor.isDragging() }),
   })
@@ -77,4 +59,4 @@ const MovableCard = (movableCardProps: MovableCardProps) => {
   )
 }
 
-export default MovableCard
+export default Card
