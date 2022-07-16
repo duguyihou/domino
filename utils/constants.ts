@@ -1,13 +1,6 @@
-export enum ColumnName {
-  ToDo = 'TO DO',
-  InProgress = 'In Progress',
-  AwaitingReview = 'Awaiting review',
-  Done = 'Done',
-}
-
-export const tasks = [
-  { id: 1, name: 'Item 1', column: ColumnName.ToDo },
-  { id: 2, name: 'Item 2', column: ColumnName.InProgress },
-  { id: 3, name: 'Item 3', column: ColumnName.AwaitingReview },
-  { id: 4, name: 'Item 4', column: ColumnName.ToDo },
+export const issues = [
+  { id: 1, name: 'Item 1', column: 'ToDo' },
+  { id: 2, name: 'Item 2', column: 'InProgress' },
+  { id: 3, name: 'Item 3', column: 'AwaitingReview' },
+  { id: 4, name: 'Item 4', column: 'ToDo' },
 ]

@@ -1,11 +1,11 @@
 import { Dispatch, SetStateAction } from 'react'
 
-import { Task } from '../../pages/board'
-import { ColumnName } from '../../utils/constants'
+import { Issue } from '../../types'
+
 export type CardProps = {
   name: string
   index: number
-  currentColumnName: keyof typeof ColumnName
+  currentColumnName: string
   moveCardHandler: (dragIndex: number, hoverIndex: number) => void
-  setItems: Dispatch<SetStateAction<Task[]>>
+  setItems: Dispatch<SetStateAction<Issue[]>>
 }

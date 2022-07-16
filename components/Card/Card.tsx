@@ -2,13 +2,13 @@ import React, { useRef } from 'react'
 
 import { useDrag, useDrop } from 'react-dnd'
 
-import { Task } from '../../pages/board'
+import { Issue } from '../../types'
 import { CardProps } from './Card.types'
 
 const Card = (cardProps: CardProps) => {
   const { name, index, currentColumnName, moveCardHandler, setItems } =
     cardProps
-  const changeItemColumn = (currentItem: Task, columnName: string) =>
+  const changeItemColumn = (currentItem: Issue, columnName: string) =>
     setItems((prevState) =>
       prevState.map((e) => ({
         ...e,
@@ -42,8 +42,8 @@ const Card = (cardProps: CardProps) => {
   const [{ isDragging }, drag] = useDrag({
     item: { index, name, currentColumnName },
     type: 'Our first type',
-    end: (item: Task, monitor) => {
-      const dropResult = monitor.getDropResult<Task>()
+    end: (item: Issue, monitor) => {
+      const dropResult = monitor.getDropResult<Issue>()
       if (!dropResult) return
       const { name } = dropResult
       changeItemColumn(item, name)

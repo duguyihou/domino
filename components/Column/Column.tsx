@@ -2,7 +2,6 @@ import React from 'react'
 
 import { useDrop } from 'react-dnd'
 
-import { ColumnName } from '../../utils/constants'
 import { ColumnProps } from './Column.types'
 
 const Column = (columnProps: ColumnProps) => {
@@ -18,14 +17,12 @@ const Column = (columnProps: ColumnProps) => {
       const { currentColumnName } = item
       return (
         currentColumnName === title ||
-        (currentColumnName === ColumnName.ToDo &&
-          title === ColumnName.InProgress) ||
-        (currentColumnName === ColumnName.InProgress &&
-          (title === ColumnName.ToDo || title === ColumnName.AwaitingReview)) ||
-        (currentColumnName === ColumnName.AwaitingReview &&
-          (title === ColumnName.InProgress || title === ColumnName.Done)) ||
-        (currentColumnName === ColumnName.Done &&
-          title === ColumnName.AwaitingReview)
+        (currentColumnName === 'ToDo' && title === 'InProgress') ||
+        (currentColumnName === 'InProgress' &&
+          (title === 'ToDo' || title === 'AwaitingReview')) ||
+        (currentColumnName === 'AwaitingReview' &&
+          (title === 'InProgress' || title === 'Done')) ||
+        (currentColumnName === 'Done' && title === 'AwaitingReview')
       )
     },
   }
