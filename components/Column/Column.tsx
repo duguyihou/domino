@@ -2,29 +2,18 @@ import React from 'react'
 
 import { useDrop } from 'react-dnd'
 
+import styles from './Column.module.scss'
 import { ColumnProps } from './Column.types'
 
 const Column = (columnProps: ColumnProps) => {
   const { children, title } = columnProps
   const dragObject = {
-    accept: 'Our first type',
+    accept: 'issue',
     drop: () => ({ name: title }),
     collect: (monitor) => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),
     }),
-    canDrop: (item) => {
-      const { currentColumnName } = item
-      return (
-        currentColumnName === title ||
-        (currentColumnName === 'ToDo' && title === 'InProgress') ||
-        (currentColumnName === 'InProgress' &&
-          (title === 'ToDo' || title === 'AwaitingReview')) ||
-        (currentColumnName === 'AwaitingReview' &&
-          (title === 'InProgress' || title === 'Done')) ||
-        (currentColumnName === 'Done' && title === 'AwaitingReview')
-      )
-    },
   }
   const [{ isOver, canDrop }, drop] = useDrop(dragObject)
   const getBackgroundColor = () => {
@@ -33,7 +22,11 @@ const Column = (columnProps: ColumnProps) => {
     }
   }
   return (
-    <div ref={drop} style={{ backgroundColor: getBackgroundColor() }}>
+    <div
+      ref={drop}
+      className={styles.container}
+      style={{ backgroundColor: getBackgroundColor() }}
+    >
       <p>{title}</p>
       {children}
     </div>

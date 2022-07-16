@@ -5,9 +5,9 @@ import { HTML5Backend } from 'react-dnd-html5-backend'
 
 import { Card } from '../components/Card'
 import { Column } from '../components/Column'
+import styles from '../styles/board.module.scss'
 import { Issue } from '../types'
 import { issues } from '../utils/constants'
-
 const columns = ['ToDo', 'InProgress', 'AwaitingReview', 'Done']
 
 const Board = () => {
@@ -38,11 +38,13 @@ const Board = () => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      {columns.map((column) => (
-        <Column key={column} title={column}>
-          {renderItemsForColumn(column)}
-        </Column>
-      ))}
+      <div className={styles.container}>
+        {columns.map((column) => (
+          <Column key={column} title={column}>
+            {renderItemsForColumn(column)}
+          </Column>
+        ))}
+      </div>
     </DndProvider>
   )
 }
