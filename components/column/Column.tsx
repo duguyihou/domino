@@ -22,14 +22,14 @@ const Column = (columnProps: ColumnProps) => {
     }
   }
   return (
-    <div
+    <section
       ref={drop}
       className={styles.container}
       style={{ backgroundColor: getBackgroundColor() }}
     >
-      <p>{title}</p>
+      <header className={styles.header}>{title}</header>
       {children}
-    </div>
+    </section>
   )
 }
 
