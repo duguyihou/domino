@@ -1,5 +1,10 @@
 export type Issue = {
   id: number
-  name: string
+  card: {
+    title: string
+    assignTo: string
+    hasDescription: boolean
+    newComments: number
+  }
   column: string
 }

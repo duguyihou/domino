@@ -28,7 +28,7 @@ const Board = () => {
     return itemsForColumn.map((item, index) => (
       <Card
         key={item.id}
-        name={item.name}
+        card={item.card}
         currentColumnName={item.column}
         setItems={setItems}
         index={index}
