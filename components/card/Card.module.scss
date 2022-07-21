@@ -1,3 +1,18 @@
 .container {
-  @apply w-[calc(100%-0.5rem)] h-20 mx-1 mb-1 border shadow-sm flex justify-center items-center bg-white;
+  @apply w-[calc(100%-0.5rem)] h-fit mx-1 mb-1 p-1 rounded-sm shadow-sm  bg-white;
+  @apply flex flex-col justify-center items-center;
+
+  .title {
+    @apply w-full bg-white rounded-sm;
+  }
+  .footer {
+    @apply w-full relative;
+    @apply flex flex-row  items-center;
+    svg {
+      @apply w-4 h-4 text-gray-400 mr-2;
+    }
+    .assignTo {
+      @apply absolute right-0;
+    }
+  }
 }
