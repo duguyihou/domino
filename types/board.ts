@@ -1,6 +1,6 @@
 import { CSSProperties, JSXElementConstructor, ReactElement } from 'react'
 
-import type { CancelDrop, Modifiers, UniqueIdentifier } from '@dnd-kit/core'
+import type { CancelDrop, UniqueIdentifier } from '@dnd-kit/core'
 import type { SortingStrategy } from '@dnd-kit/sortable'
 
 export type Cards = Record<UniqueIdentifier, string[]>
@@ -24,8 +24,6 @@ export type BoardProps = {
   handle?: boolean
   renderItem?: () => ReactElement<any, string | JSXElementConstructor<any>>
   strategy?: SortingStrategy
-  modifiers?: Modifiers
-  minimal?: boolean
   trashable?: boolean
   scrollable?: boolean
   vertical?: boolean

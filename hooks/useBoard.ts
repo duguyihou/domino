@@ -14,7 +14,7 @@ import { useOnDragOver } from './useOnDragOver'
 import { useOnDragStart } from './useOnDragStart'
 export const TRASH_ID = 'void'
 
-export const useDndContextConfig = (initialItems, modifiers) => {
+export const useBoard = (initialItems) => {
   const [items, setItems] = useState<Cards>(
     initialItems ?? {
       A: ['A1', 'A2', 'A3'],
@@ -87,7 +87,6 @@ export const useDndContextConfig = (initialItems, modifiers) => {
     onDragOver,
     onDragEnd,
     onDragCancel,
-    modifiers,
   }
   return {
     dndContextConfig,

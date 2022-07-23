@@ -6,7 +6,7 @@ import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 
 import { DroppableContainer } from '../components/droppableContainer'
 import { SortableCard } from '../components/sortableCard'
-import { useDndContextConfig } from '../hooks/useDndContextConfig'
+import { useBoard } from '../hooks/useBoard'
 import styles from '../styles/board.module.scss'
 import { BoardProps } from '../types/board'
 import { getIndex } from '../utils/getIndex'
@@ -21,7 +21,6 @@ const Board = (boardProps: BoardProps) => {
     containerStyle,
     getItemStyles = () => ({}),
     minimal = false,
-    modifiers,
     renderItem,
     strategy = verticalListSortingStrategy,
     scrollable,
@@ -34,7 +33,7 @@ const Board = (boardProps: BoardProps) => {
     isSortingContainer,
     handleAddColumn,
     handleRemove,
-  } = useDndContextConfig(initialItems, modifiers)
+  } = useBoard(initialItems)
 
   return (
     <DndContext {...dndContextConfig}>
