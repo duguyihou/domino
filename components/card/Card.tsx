@@ -2,7 +2,7 @@ import React, { memo, forwardRef, CSSProperties } from 'react'
 
 import classNames from 'classnames'
 
-import { Handle, Remove } from '../common'
+import { Remove } from '../common'
 import styles from './Card.module.scss'
 import { CardProps } from './Card.types'
 
@@ -14,7 +14,6 @@ const Card = memo(
       dragging,
       disabled,
       fadeIn,
-      handle,
       index,
       listeners,
       onRemove,
@@ -60,7 +59,6 @@ const Card = memo(
     const divClassName = classNames(
       styles.Item,
       dragging && styles.dragging,
-      handle && styles.withHandle,
       dragOverlay && styles.dragOverlay,
       disabled && styles.disabled,
       color && styles.color
@@ -73,16 +71,15 @@ const Card = memo(
           className={divClassName}
           style={style}
           data-cypress="draggable-item"
-          {...(!handle ? listeners : undefined)}
+          {...listeners}
           {...props}
-          tabIndex={!handle ? 0 : undefined}
+          tabIndex={0}
         >
           {value}
           <span className={styles.Actions}>
             {onRemove ? (
               <Remove className={styles.Remove} onClick={onRemove} />
             ) : null}
-            {handle ? <Handle {...listeners} /> : null}
           </span>
         </div>
       </li>

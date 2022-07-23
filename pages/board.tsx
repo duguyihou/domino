@@ -9,15 +9,14 @@ import { SortableCard } from '../components/sortableCard'
 import { useDndContextConfig } from '../hooks/useDndContextConfig'
 import styles from '../styles/board.module.scss'
 import { BoardProps } from '../types/board'
+import { getIndex } from '../utils/getIndex'
 
 const PLACEHOLDER_ID = 'placeholder'
 const empty: UniqueIdentifier[] = []
 
 const Board = (boardProps: BoardProps) => {
   const {
-    itemCount = 5,
     columns,
-    handle = false,
     cards: initialItems,
     containerStyle,
     getItemStyles = () => ({}),
@@ -33,10 +32,9 @@ const Board = (boardProps: BoardProps) => {
     containers,
     items,
     isSortingContainer,
-    getIndex,
     handleAddColumn,
     handleRemove,
-  } = useDndContextConfig(initialItems, itemCount, modifiers)
+  } = useDndContextConfig(initialItems, modifiers)
 
   return (
     <DndContext {...dndContextConfig}>
@@ -65,7 +63,6 @@ const Board = (boardProps: BoardProps) => {
                       key={value}
                       id={value}
                       index={index}
-                      handle={handle}
                       style={getItemStyles}
                       renderItem={renderItem}
                       containerId={containerId}

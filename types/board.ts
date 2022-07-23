@@ -3,7 +3,7 @@ import { CSSProperties, JSXElementConstructor, ReactElement } from 'react'
 import type { CancelDrop, Modifiers, UniqueIdentifier } from '@dnd-kit/core'
 import type { SortingStrategy } from '@dnd-kit/sortable'
 
-export type Cards = Record<string, string[]>
+export type Cards = Record<UniqueIdentifier, string[]>
 export type BoardProps = {
   adjustScale?: boolean
   cancelDrop?: CancelDrop
