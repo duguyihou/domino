@@ -1,6 +1,6 @@
 import { MutableRefObject, useCallback } from 'react'
 
-import type { CollisionDetection, UniqueIdentifier } from '@dnd-kit/core'
+import type { Collision, UniqueIdentifier } from '@dnd-kit/core'
 import { closestCenter, rectIntersection } from '@dnd-kit/core'
 
 import { Cards } from '../types/board'
@@ -18,9 +18,10 @@ export const useCollisionDetection = ({
 }: CollisionDetectionArgs) => {
   const { activeId, items, lastOverId, recentlyMovedToNewContainer } =
     collisionDetectionArgs
-  const collisionDetection: CollisionDetection = useCallback(
+  const collisionDetection: (
+    args: unknown
+  ) => UniqueIdentifier | Collision[] | null = useCallback(
     (args) => {
-      // Start by finding any intersecting droppable
       let overId = rectIntersection(args)
 
       if (activeId && activeId in items) {

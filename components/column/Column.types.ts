@@ -2,12 +2,11 @@ import { ReactNode, CSSProperties, HTMLAttributes } from 'react'
 
 export type ColumnProps = {
   children: ReactNode
-  columns?: number
   label?: string
   style?: CSSProperties
   horizontal?: boolean
   hover?: boolean
-  handleProps?: HTMLAttributes<any>
+  handleProps?: HTMLAttributes<HTMLDivElement | HTMLButtonElement>
   scrollable?: boolean
   shadow?: boolean
   placeholder?: boolean

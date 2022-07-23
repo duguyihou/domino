@@ -16,14 +16,11 @@ const empty: UniqueIdentifier[] = []
 
 const Board = (boardProps: BoardProps) => {
   const {
-    columns,
-    cards: initialItems,
+    initialCards,
     containerStyle,
     getItemStyles = () => ({}),
-    minimal = false,
     renderItem,
     strategy = verticalListSortingStrategy,
-    scrollable,
   } = boardProps
 
   const {
@@ -33,8 +30,37 @@ const Board = (boardProps: BoardProps) => {
     isSortingContainer,
     handleAddColumn,
     handleRemove,
-  } = useBoard(initialItems)
+  } = useBoard(initialCards)
 
+  const renderDroppableContainers = () => {
+    return containers.map((containerId) => (
+      <DroppableContainer
+        key={containerId}
+        id={containerId}
+        label={`Column ${containerId}`}
+        items={items[containerId]}
+        style={containerStyle}
+        onRemove={() => handleRemove(containerId)}
+      >
+        <SortableContext items={items[containerId]} strategy={strategy}>
+          {items[containerId].map((value, index) => {
+            return (
+              <SortableCard
+                disabled={isSortingContainer}
+                key={value}
+                id={value}
+                index={index}
+                style={getItemStyles}
+                renderItem={renderItem}
+                containerId={containerId}
+                getIndex={getIndex}
+              />
+            )
+          })}
+        </SortableContext>
+      </DroppableContainer>
+    ))
+  }
   return (
     <DndContext {...dndContextConfig}>
       <div className={styles.container}>
@@ -42,36 +68,7 @@ const Board = (boardProps: BoardProps) => {
           items={[...containers, PLACEHOLDER_ID]}
           strategy={strategy}
         >
-          {containers.map((containerId) => (
-            <DroppableContainer
-              key={containerId}
-              id={containerId}
-              label={`Column ${containerId}`}
-              columns={columns}
-              items={items[containerId]}
-              scrollable={scrollable}
-              style={containerStyle}
-              unstyled={minimal}
-              onRemove={() => handleRemove(containerId)}
-            >
-              <SortableContext items={items[containerId]} strategy={strategy}>
-                {items[containerId].map((value, index) => {
-                  return (
-                    <SortableCard
-                      disabled={isSortingContainer}
-                      key={value}
-                      id={value}
-                      index={index}
-                      style={getItemStyles}
-                      renderItem={renderItem}
-                      containerId={containerId}
-                      getIndex={getIndex}
-                    />
-                  )
-                })}
-              </SortableContext>
-            </DroppableContainer>
-          ))}
+          {renderDroppableContainers()}
           <DroppableContainer
             id={PLACEHOLDER_ID}
             disabled={isSortingContainer}

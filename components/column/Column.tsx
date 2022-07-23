@@ -1,4 +1,4 @@
-import React, { forwardRef, CSSProperties } from 'react'
+import React, { forwardRef } from 'react'
 
 import classNames from 'classnames'
 
@@ -6,11 +6,10 @@ import { Handle, Remove } from '../common'
 import styles from './Column.module.scss'
 import { ColumnProps } from './Column.types'
 
-const Column = forwardRef<HTMLDivElement, ColumnProps>(
+const Column = forwardRef<HTMLDivElement | HTMLButtonElement, ColumnProps>(
   (columnProps: ColumnProps, ref) => {
     const {
       children,
-      columns = 1,
       handleProps,
       horizontal,
       hover,
@@ -25,12 +24,8 @@ const Column = forwardRef<HTMLDivElement, ColumnProps>(
       ...props
     } = columnProps
     const Component = onClick ? 'button' : 'div'
-    const componentStyle = {
-      ...style,
-      '--columns': columns,
-    } as CSSProperties
     const componentClassName = classNames(
-      styles.Container,
+      styles.container,
       unstyled && styles.unstyled,
       horizontal && styles.horizontal,
       hover && styles.hover,
@@ -42,20 +37,20 @@ const Column = forwardRef<HTMLDivElement, ColumnProps>(
       <Component
         {...props}
         ref={ref}
-        style={componentStyle}
+        style={style}
         className={componentClassName}
         onClick={onClick}
         tabIndex={onClick ? 0 : undefined}
       >
-        {label ? (
-          <div className={styles.Header}>
+        {label && (
+          <div className={styles.header}>
             {label}
-            <div className={styles.Actions}>
+            <div className={styles.actions}>
               {onRemove ? <Remove onClick={onRemove} /> : undefined}
               <Handle {...handleProps} />
             </div>
           </div>
-        ) : null}
+        )}
         {placeholder ? children : <ul>{children}</ul>}
       </Component>
     )

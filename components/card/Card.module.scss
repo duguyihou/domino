@@ -28,7 +28,7 @@ $focused-outline-color: #4c9ffe;
   }
 }
 
-.Wrapper {
+.wrapper {
   display: flex;
   box-sizing: border-box;
   transform: translate3d(var(--translate-x, 0), var(--translate-y, 0), 0)
@@ -50,7 +50,7 @@ $focused-outline-color: #4c9ffe;
   }
 }
 
-.Item {
+.item {
   position: relative;
   display: flex;
   flex-grow: 1;
@@ -125,17 +125,17 @@ $focused-outline-color: #4c9ffe;
   }
 
   &:hover {
-    .Remove {
+    .remove {
       visibility: visible;
     }
   }
 }
 
-.Remove {
+.remove {
   visibility: hidden;
 }
 
-.Actions {
+.actions {
   display: flex;
   align-self: flex-start;
   margin-top: -12px;

@@ -11,15 +11,8 @@ const animateLayoutChanges: AnimateLayoutChanges = (args) =>
 const DroppableContainer = (
   droppableContainerProps: DroppableContainerProps
 ) => {
-  const {
-    children,
-    columns = 1,
-    disabled,
-    id,
-    items,
-    style,
-    ...props
-  } = droppableContainerProps
+  const { children, disabled, id, items, style, ...props } =
+    droppableContainerProps
   const {
     active,
     attributes,
@@ -55,7 +48,6 @@ const DroppableContainer = (
         ...attributes,
         ...listeners,
       }}
-      columns={columns}
       {...props}
     >
       {children}

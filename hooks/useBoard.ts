@@ -14,7 +14,7 @@ import { useOnDragOver } from './useOnDragOver'
 import { useOnDragStart } from './useOnDragStart'
 export const TRASH_ID = 'void'
 
-export const useBoard = (initialItems) => {
+export const useBoard = (initialItems: Cards) => {
   const [items, setItems] = useState<Cards>(
     initialItems ?? {
       A: ['A1', 'A2', 'A3'],

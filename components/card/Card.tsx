@@ -40,7 +40,7 @@ const Card = memo(
       value,
     }
     const liClassName = classNames(
-      styles.Wrapper,
+      styles.wrapper,
       fadeIn && styles.fadeIn,
       sorting && styles.sorting,
       dragOverlay && styles.dragOverlay
@@ -57,7 +57,7 @@ const Card = memo(
     } as CSSProperties
 
     const divClassName = classNames(
-      styles.Item,
+      styles.item,
       dragging && styles.dragging,
       dragOverlay && styles.dragOverlay,
       disabled && styles.disabled,

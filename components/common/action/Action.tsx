@@ -17,7 +17,7 @@ const Action = (actionProps: ActionProps) => {
   return (
     <button
       {...props}
-      className={classNames(styles.Action, className)}
+      className={classNames(styles.action, className)}
       tabIndex={0}
       style={buttonStyle}
     />
