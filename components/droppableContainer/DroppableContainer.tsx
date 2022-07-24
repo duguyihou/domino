@@ -1,6 +1,5 @@
 import { defaultAnimateLayoutChanges, useSortable } from '@dnd-kit/sortable'
 import type { AnimateLayoutChanges } from '@dnd-kit/sortable'
-import { CSS } from '@dnd-kit/utilities'
 
 import { Column } from '../column'
 import { DroppableContainerProps } from './DroppableContainer.types'
@@ -21,7 +20,6 @@ const DroppableContainer = (
     over,
     setNodeRef,
     transition,
-    transform,
   } = useSortable({
     id,
     data: {
@@ -40,7 +38,6 @@ const DroppableContainer = (
       style={{
         ...style,
         transition,
-        transform: CSS.Translate.toString(transform),
         opacity: isDragging ? 0.5 : undefined,
       }}
       hover={isOverContainer}
