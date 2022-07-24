@@ -1,25 +1,22 @@
 import React from 'react'
 
 import { DndContext } from '@dnd-kit/core'
-import type { UniqueIdentifier } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 
 import { DroppableContainer } from '../components/droppableContainer'
 import { SortableCard } from '../components/sortableCard'
 import { useBoard } from '../hooks/useBoard'
 import styles from '../styles/board.module.scss'
-import { BoardProps } from '../types/board'
+import { BoardProps, Cards } from '../types/board'
 import { getIndex } from '../utils/getIndex'
 
 const PLACEHOLDER_ID = 'placeholder'
-const empty: UniqueIdentifier[] = []
 
 const Board = (boardProps: BoardProps) => {
   const {
     initialCards,
     containerStyle,
     getItemStyles = () => ({}),
-    renderItem,
     strategy = verticalListSortingStrategy,
   } = boardProps
 
@@ -28,7 +25,6 @@ const Board = (boardProps: BoardProps) => {
     containers,
     items,
     isSortingContainer,
-    handleAddColumn,
     handleRemove,
   } = useBoard(initialCards)
 
@@ -46,12 +42,12 @@ const Board = (boardProps: BoardProps) => {
           {items[containerId].map((value, index) => {
             return (
               <SortableCard
+                items={items[containerId] as unknown as Cards}
                 disabled={isSortingContainer}
                 key={value}
                 id={value}
                 index={index}
                 style={getItemStyles}
-                renderItem={renderItem}
                 containerId={containerId}
                 getIndex={getIndex}
               />
@@ -69,15 +65,6 @@ const Board = (boardProps: BoardProps) => {
           strategy={strategy}
         >
           {renderDroppableContainers()}
-          <DroppableContainer
-            id={PLACEHOLDER_ID}
-            disabled={isSortingContainer}
-            items={empty}
-            onClick={handleAddColumn}
-            placeholder
-          >
-            + Add column
-          </DroppableContainer>
         </SortableContext>
       </div>
     </DndContext>

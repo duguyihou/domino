@@ -16,6 +16,5 @@ export type BoardProps = {
     isDragOverlay: boolean
   }): CSSProperties
   initialCards?: Cards
-  renderItem?: () => ReactElement<any, string | JSXElementConstructor<any>>
   strategy?: SortingStrategy
 }

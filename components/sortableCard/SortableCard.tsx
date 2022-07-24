@@ -20,7 +20,7 @@ function getColor(id: string) {
 }
 
 const SortableCard = (sortableCardProps: SortableCardProps) => {
-  const { disabled, id, index, renderItem, style, containerId, getIndex } =
+  const { disabled, id, index, style, containerId, getIndex, items } =
     sortableCardProps
   const {
     setNodeRef,
@@ -36,7 +36,14 @@ const SortableCard = (sortableCardProps: SortableCardProps) => {
   })
   const mounted = useMountStatus()
   const mountedWhileDragging = isDragging && !mounted
-
+  const cardStyle = style({
+    index,
+    value: id,
+    isDragging,
+    isSorting,
+    overIndex: over ? getIndex(over.id as string, items) : overIndex,
+    containerId,
+  })
   return (
     <Card
       ref={disabled ? undefined : setNodeRef}
@@ -44,20 +51,12 @@ const SortableCard = (sortableCardProps: SortableCardProps) => {
       dragging={isDragging}
       sorting={isSorting}
       index={index}
-      style={style({
-        index,
-        value: id,
-        isDragging,
-        isSorting,
-        overIndex: over ? getIndex(over.id) : overIndex,
-        containerId,
-      })}
+      style={cardStyle}
       color={getColor(id)}
       transition={transition}
       transform={transform}
       fadeIn={mountedWhileDragging}
       listeners={listeners}
-      renderItem={renderItem}
     />
   )
 }
