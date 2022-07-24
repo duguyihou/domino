@@ -20,12 +20,12 @@ export const useBoard = (initialItems?: Cards) => {
       C: ['C1', 'C2', 'C3'],
     }
   )
-  const [containers, setContainers] = useState(Object.keys(items))
+  const [columns, setColumns] = useState(Object.keys(items))
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null)
   const recentlyMovedToNewContainer = useRef(false)
   const [clonedItems, setClonedItems] = useState<Cards | null>(null)
   const isSortingContainer = activeId
-    ? containers.includes(activeId as string)
+    ? columns.includes(activeId as string)
     : false
   const sensors = useBoardSensors()
 
@@ -41,7 +41,7 @@ export const useBoard = (initialItems?: Cards) => {
   const onDragOverArgs = { items, setItems, recentlyMovedToNewContainer }
   const onDragOver = useOnDragOver({ onDragOverArgs })
   // onDragEnd
-  const onDragEndArgs = { setActiveId, setContainers, items, setItems }
+  const onDragEndArgs = { setActiveId, setColumns, items, setItems }
   const onDragEnd = useOnDragEnd({ onDragEndArgs })
   // onDragCancel
   const onDragCancelArgs = {
@@ -53,7 +53,7 @@ export const useBoard = (initialItems?: Cards) => {
   const onDragCancel = useOnDragCancel({ onDragCancelArgs })
 
   function handleRemove(containerID: UniqueIdentifier) {
-    setContainers((containers) => containers.filter((id) => id !== containerID))
+    setColumns((columns) => columns.filter((id) => id !== containerID))
   }
   const dndContextConfig = {
     sensors,
@@ -65,7 +65,7 @@ export const useBoard = (initialItems?: Cards) => {
   }
   return {
     dndContextConfig,
-    containers,
+    columns,
     items,
     isSortingContainer,
     getNextContainerId,
