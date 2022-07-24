@@ -6,6 +6,7 @@ specifiers:
   '@commitlint/config-conventional': ^17.0.3
   '@dnd-kit/core': ^6.0.5
   '@dnd-kit/sortable': ^7.0.1
+  '@dnd-kit/utilities': ^3.2.0
   '@types/node': 18.0.3
   '@types/react': 18.0.15
   '@types/react-dom': 18.0.6
@@ -34,6 +35,7 @@ dependencies:
   '@apollo/client': 3.6.9_aez2jvt6lsvokp3l4ousdbdxf4
   '@dnd-kit/core': 6.0.5_biqbaboplfbrettd7655fr4n2y
   '@dnd-kit/sortable': 7.0.1_vvd3dzag27tc7rclyb2whqqnpe
+  '@dnd-kit/utilities': 3.2.0_react@18.2.0
   classnames: 2.3.1
   graphql: 16.5.0
   next: 12.2.2_pmtxwaud2i7t46nnb7sfofmose
