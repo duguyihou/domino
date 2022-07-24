@@ -12,7 +12,6 @@ const Card = memo(
       color,
       dragOverlay,
       dragging,
-      disabled,
       fadeIn,
       index,
       listeners,
@@ -47,7 +46,6 @@ const Card = memo(
       styles.item,
       dragging && styles.dragging,
       dragOverlay && styles.dragOverlay,
-      disabled && styles.disabled,
       color && styles.color
     )
     return (

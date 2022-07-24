@@ -20,13 +20,8 @@ const Board = (boardProps: BoardProps) => {
     strategy = verticalListSortingStrategy,
   } = boardProps
 
-  const {
-    dndContextConfig,
-    containers,
-    items,
-    isSortingContainer,
-    handleRemove,
-  } = useBoard(initialCards)
+  const { dndContextConfig, containers, items, handleRemove } =
+    useBoard(initialCards)
 
   const renderDroppableContainers = () => {
     return containers.map((containerId) => (
@@ -40,18 +35,15 @@ const Board = (boardProps: BoardProps) => {
       >
         <SortableContext items={items[containerId]} strategy={strategy}>
           {items[containerId].map((value, index) => {
-            return (
-              <SortableCard
-                items={items[containerId] as unknown as Cards}
-                disabled={isSortingContainer}
-                key={value}
-                id={value}
-                index={index}
-                style={getItemStyles}
-                containerId={containerId}
-                getIndex={getIndex}
-              />
-            )
+            const sortableCardProps = {
+              id: value,
+              index,
+              containerId,
+              getIndex,
+              style: getItemStyles,
+              items: items[containerId] as unknown as Cards,
+            }
+            return <SortableCard key={value} {...{ sortableCardProps }} />
           })}
         </SortableContext>
       </DroppableContainer>

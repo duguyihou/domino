@@ -19,9 +19,8 @@ function getColor(id: string) {
   return undefined
 }
 
-const SortableCard = (sortableCardProps: SortableCardProps) => {
-  const { disabled, id, index, style, containerId, getIndex, items } =
-    sortableCardProps
+const SortableCard = ({ sortableCardProps }: SortableCardProps) => {
+  const { id, index, style, containerId, getIndex, items } = sortableCardProps
   const {
     setNodeRef,
     listeners,
@@ -46,7 +45,7 @@ const SortableCard = (sortableCardProps: SortableCardProps) => {
   })
   return (
     <Card
-      ref={disabled ? undefined : setNodeRef}
+      ref={setNodeRef}
       value={id}
       dragging={isDragging}
       sorting={isSorting}
