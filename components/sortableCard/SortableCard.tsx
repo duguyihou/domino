@@ -36,6 +36,14 @@ const SortableCard = (sortableCardProps: SortableCardProps) => {
   })
   const mounted = useMountStatus()
   const mountedWhileDragging = isDragging && !mounted
+  const cardStyle = style({
+    index,
+    value: id,
+    isDragging,
+    isSorting,
+    overIndex: over ? getIndex(over.id as string, items) : overIndex,
+    containerId,
+  })
   return (
     <Card
       ref={disabled ? undefined : setNodeRef}
@@ -43,14 +51,7 @@ const SortableCard = (sortableCardProps: SortableCardProps) => {
       dragging={isDragging}
       sorting={isSorting}
       index={index}
-      style={style({
-        index,
-        value: id,
-        isDragging,
-        isSorting,
-        overIndex: over ? getIndex(over.id as string, items) : overIndex,
-        containerId,
-      })}
+      style={cardStyle}
       color={getColor(id)}
       transition={transition}
       transform={transform}
