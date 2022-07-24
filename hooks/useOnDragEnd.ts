@@ -9,19 +9,19 @@ import { findContainer } from '../utils/findContainer'
 type OnDragEndArgs = {
   onDragEndArgs: {
     setActiveId: Dispatch<SetStateAction<UniqueIdentifier | null>>
-    setContainers: Dispatch<SetStateAction<string[]>>
+    setColumns: Dispatch<SetStateAction<string[]>>
     setItems: Dispatch<SetStateAction<Cards>>
     items: Cards
   }
 }
 
 export const useOnDragEnd = ({ onDragEndArgs }: OnDragEndArgs) => {
-  const { setActiveId, setContainers, items, setItems } = onDragEndArgs
+  const { setActiveId, setColumns, items, setItems } = onDragEndArgs
 
   const onDragEnd = ({ active, over }: DragEndEvent) => {
     if (!items) return
     if (active.id in items && over?.id) {
-      setContainers((containers) => {
+      setColumns((containers) => {
         const activeIndex = containers.indexOf(active.id as string)
         const overIndex = containers.indexOf(over.id as string)
 

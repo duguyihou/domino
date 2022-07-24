@@ -1,6 +1,7 @@
 import { useSortable } from '@dnd-kit/sortable'
 
 import { useMountStatus } from '../../hooks'
+import { getIndex } from '../../utils/getIndex'
 import { Card } from '../card'
 import { SortableCardProps } from './SortableCard.type'
 
@@ -20,7 +21,7 @@ function getColor(id: string) {
 }
 
 const SortableCard = ({ sortableCardProps }: SortableCardProps) => {
-  const { id, index, style, containerId, getIndex, items } = sortableCardProps
+  const { id, index, style, columnId, items } = sortableCardProps
   const {
     setNodeRef,
     listeners,
@@ -41,7 +42,7 @@ const SortableCard = ({ sortableCardProps }: SortableCardProps) => {
     isDragging,
     isSorting,
     overIndex: over ? getIndex(over.id as string, items) : overIndex,
-    containerId,
+    columnId,
   })
   return (
     <Card

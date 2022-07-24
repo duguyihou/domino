@@ -13,10 +13,12 @@
 .hover {
   @apply bg-slate-200;
 }
+
 .header {
   @apply flex  justify-between items-center;
   @apply py-1 pl-5 pr-2 bg-white;
   @apply border-y-4 border-b-2;
+
   &:hover {
     .actions > * {
       opacity: 1 !important;

@@ -5,7 +5,6 @@ import type { SortingStrategy } from '@dnd-kit/sortable'
 
 export type Cards = Record<UniqueIdentifier, string[]>
 export type BoardProps = {
-  containerStyle?: CSSProperties
   getItemStyles?(args: {
     value: UniqueIdentifier
     index: number
