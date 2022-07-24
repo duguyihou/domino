@@ -1,7 +1,67 @@
 .container {
-  @apply flex flex-col w-72 border rounded-sm h-[calc(100vh-5rem)] bg-gray-200 mr-1;
+  @apply text-base;
+  @apply flex flex-col appearance-none outline-none;
+  @apply rounded-md w-80 m-2 transition-all bg-slate-50 border border-slate-200;
+  @apply focus-visible:border-none;
+  ul {
+    @apply list-none p-5 m-0;
+    @apply grid gap-2 grid-cols-1;
+  }
 
-  .header {
-    @apply text-black text-lg p-2;
+  &.scrollable {
+    ul {
+      @apply overflow-y-auto;
+    }
+  }
+
+  &.placeholder {
+    @apply justify-center items-center;
+    @apply cursor-pointer bg-transparent text-slate-500 border-dashed border-slate-200;
+
+    &:hover {
+      @apply border-slate-200;
+    }
+  }
+
+  &.hover {
+    @apply bg-slate-50;
+  }
+
+  &.unstyled {
+    @apply overflow-visible bg-transparent border-none;
+  }
+
+  &.horizontal {
+    @apply w-full;
+    ul {
+      @apply grid-flow-col;
+    }
+  }
+
+  &.shadow {
+    @apply shadow-md shadow-slate-500;
+  }
+}
+
+.header {
+  @apply flex  justify-between items-center;
+  @apply py-1 pl-5 pr-2 bg-white;
+  @apply border-y-4 border-b-2;
+  &:hover {
+    .actions > * {
+      opacity: 1 !important;
+    }
+  }
+}
+
+.actions {
+  @apply flex;
+
+  > *:first-child:not(:last-child) {
+    opacity: 0;
+
+    &:focus-visible {
+      opacity: 1;
+    }
   }
 }

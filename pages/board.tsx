@@ -1,52 +1,86 @@
-import React, { useState } from 'react'
+import React from 'react'
 
-import { DndProvider } from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend'
+import { DndContext } from '@dnd-kit/core'
+import type { UniqueIdentifier } from '@dnd-kit/core'
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 
-import { Card } from '../components/card'
-import { Column } from '../components/column'
+import { DroppableContainer } from '../components/droppableContainer'
+import { SortableCard } from '../components/sortableCard'
+import { useBoard } from '../hooks/useBoard'
 import styles from '../styles/board.module.scss'
-import { Issue } from '../types'
-import { issues } from '../utils/constants'
+import { BoardProps } from '../types/board'
+import { getIndex } from '../utils/getIndex'
 
-const columns = ['ToDo', 'InProgress', 'AwaitingReview', 'Done']
+const PLACEHOLDER_ID = 'placeholder'
+const empty: UniqueIdentifier[] = []
 
-const Board = () => {
-  const [items, setItems] = useState<Issue[]>(issues)
-  const moveCardHandler = (dragIndex: number, hoverIndex: number) => {
-    setItems((prevState) => {
-      const dragItem = items[dragIndex]
-      const coppiedStateArray = [...prevState]
-      const prevItem = coppiedStateArray.splice(hoverIndex, 1, dragItem)
-      coppiedStateArray.splice(dragIndex, 1, prevItem[0])
-      return coppiedStateArray
-    })
-  }
+const Board = (boardProps: BoardProps) => {
+  const {
+    initialCards,
+    containerStyle,
+    getItemStyles = () => ({}),
+    renderItem,
+    strategy = verticalListSortingStrategy,
+  } = boardProps
 
-  const renderItemsForColumn = (columnName: string) => {
-    const itemsForColumn = items.filter((item) => item.column === columnName)
-    return itemsForColumn.map((item, index) => (
-      <Card
-        key={item.id}
-        name={item.name}
-        currentColumnName={item.column}
-        setItems={setItems}
-        index={index}
-        moveCardHandler={moveCardHandler}
-      />
+  const {
+    dndContextConfig,
+    containers,
+    items,
+    isSortingContainer,
+    handleAddColumn,
+    handleRemove,
+  } = useBoard(initialCards)
+
+  const renderDroppableContainers = () => {
+    return containers.map((containerId) => (
+      <DroppableContainer
+        key={containerId}
+        id={containerId}
+        label={`Column ${containerId}`}
+        items={items[containerId]}
+        style={containerStyle}
+        onRemove={() => handleRemove(containerId)}
+      >
+        <SortableContext items={items[containerId]} strategy={strategy}>
+          {items[containerId].map((value, index) => {
+            return (
+              <SortableCard
+                disabled={isSortingContainer}
+                key={value}
+                id={value}
+                index={index}
+                style={getItemStyles}
+                renderItem={renderItem}
+                containerId={containerId}
+                getIndex={getIndex}
+              />
+            )
+          })}
+        </SortableContext>
+      </DroppableContainer>
     ))
   }
-
   return (
-    <DndProvider backend={HTML5Backend}>
+    <DndContext {...dndContextConfig}>
       <div className={styles.container}>
-        {columns.map((column) => (
-          <Column key={column} title={column}>
-            {renderItemsForColumn(column)}
-          </Column>
-        ))}
+        <SortableContext
+          items={[...containers, PLACEHOLDER_ID]}
+          strategy={strategy}
+        >
+          {renderDroppableContainers()}
+          <DroppableContainer
+            id={PLACEHOLDER_ID}
+            disabled={isSortingContainer}
+            items={empty}
+            onClick={handleAddColumn}
+            placeholder
+          >
+            + Add column
+          </DroppableContainer>
+        </SortableContext>
       </div>
-    </DndProvider>
+    </DndContext>
   )
 }
 

@@ -1,67 +1,90 @@
-import React, { useRef } from 'react'
+import React, { memo, forwardRef, CSSProperties } from 'react'
 
-import { useDrag, useDrop } from 'react-dnd'
+import classNames from 'classnames'
 
-import { Issue } from '../../types'
+import { Remove } from '../common'
 import styles from './Card.module.scss'
 import { CardProps } from './Card.types'
 
-const Card = (cardProps: CardProps) => {
-  const { name, index, currentColumnName, moveCardHandler, setItems } =
-    cardProps
-  const changeItemColumn = (currentItem: Issue, columnName: string) =>
-    setItems((prevState) =>
-      prevState.map((e) => ({
-        ...e,
-        column: e.name === currentItem.name ? columnName : e.column,
-      }))
+const Card = memo(
+  forwardRef<HTMLLIElement, CardProps>((cardProps, ref) => {
+    const {
+      color,
+      dragOverlay,
+      dragging,
+      disabled,
+      fadeIn,
+      index,
+      listeners,
+      onRemove,
+      renderItem,
+      sorting,
+      style,
+      transition,
+      transform,
+      value,
+      wrapperStyle,
+      ...props
+    } = cardProps
+    const itemArgs = {
+      dragOverlay: !!dragOverlay,
+      dragging: !!dragging,
+      sorting: !!sorting,
+      index,
+      fadeIn: !!fadeIn,
+      listeners,
+      ref,
+      style,
+      transform,
+      transition,
+      value,
+    }
+    const liClassName = classNames(
+      styles.wrapper,
+      fadeIn && styles.fadeIn,
+      sorting && styles.sorting,
+      dragOverlay && styles.dragOverlay
     )
+    const liStyle = {
+      ...wrapperStyle,
+      transition,
+      '--translate-x': transform ? `${Math.round(transform.x)}px` : undefined,
+      '--translate-y': transform ? `${Math.round(transform.y)}px` : undefined,
+      '--scale-x': transform?.scaleX ? `${transform.scaleX}` : undefined,
+      '--scale-y': transform?.scaleY ? `${transform.scaleY}` : undefined,
+      '--index': index,
+      '--color': color,
+    } as CSSProperties
 
-  const ref = useRef<HTMLDivElement | null>(null)
-  const dragObject = {
-    accept: 'Our first type',
-    hover(item, monitor) {
-      if (!ref.current) return
-      const dragIndex = item.index
-      const hoverIndex = index
-      if (dragIndex === hoverIndex) return
-      const { bottom, top } = ref.current.getBoundingClientRect()
-      const hoverMiddleY = (bottom - top) / 2
-      const clientOffset = monitor.getClientOffset()
-      const hoverClientY = clientOffset?.y - top
-      // Only perform the move when the mouse has crossed half of the items height
-      // When dragging downwards, only move when the cursor is below 50%
-      // When dragging upwards, only move when the cursor is above 50%
-      if (
-        (dragIndex < hoverIndex && hoverIndex < hoverMiddleY) ||
-        (dragIndex > hoverIndex && hoverClientY > hoverMiddleY)
-      )
-        return
-
-      moveCardHandler(dragIndex, hoverIndex)
-      item.index = hoverIndex
-    },
-  }
-  const [, drop] = useDrop(dragObject)
-
-  const [{ isDragging }, drag] = useDrag({
-    item: { index, name, currentColumnName },
-    type: 'issue',
-    end: (item: Issue, monitor) => {
-      const dropResult = monitor.getDropResult<Issue>()
-      if (!dropResult) return
-      const { name } = dropResult
-      changeItemColumn(item, name)
-    },
-    collect: (monitor) => ({ isDragging: monitor.isDragging() }),
+    const divClassName = classNames(
+      styles.item,
+      dragging && styles.dragging,
+      dragOverlay && styles.dragOverlay,
+      disabled && styles.disabled,
+      color && styles.color
+    )
+    return renderItem ? (
+      renderItem(itemArgs)
+    ) : (
+      <li className={liClassName} style={liStyle} ref={ref}>
+        <div
+          className={divClassName}
+          style={style}
+          data-cypress="draggable-item"
+          {...listeners}
+          {...props}
+          tabIndex={0}
+        >
+          {value}
+          <span className={styles.Actions}>
+            {onRemove ? (
+              <Remove className={styles.Remove} onClick={onRemove} />
+            ) : null}
+          </span>
+        </div>
+      </li>
+    )
   })
-  const opacity = isDragging ? 0.4 : 1
-  drag(drop(ref))
-  return (
-    <div ref={ref} className={styles.container} style={{ opacity }}>
-      {name}
-    </div>
-  )
-}
-
+)
+Card.displayName = 'Card'
 export default Card
