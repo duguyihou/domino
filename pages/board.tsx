@@ -7,7 +7,7 @@ import { DroppableContainer } from '../components/droppableContainer'
 import { SortableCard } from '../components/sortableCard'
 import { useBoard } from '../hooks/useBoard'
 import styles from '../styles/board.module.scss'
-import { BoardProps } from '../types/board'
+import { BoardProps, Cards } from '../types/board'
 import { getIndex } from '../utils/getIndex'
 
 const PLACEHOLDER_ID = 'placeholder'
@@ -17,7 +17,6 @@ const Board = (boardProps: BoardProps) => {
     initialCards,
     containerStyle,
     getItemStyles = () => ({}),
-    renderItem,
     strategy = verticalListSortingStrategy,
   } = boardProps
 
@@ -43,13 +42,12 @@ const Board = (boardProps: BoardProps) => {
           {items[containerId].map((value, index) => {
             return (
               <SortableCard
-                items={items[containerId]}
+                items={items[containerId] as unknown as Cards}
                 disabled={isSortingContainer}
                 key={value}
                 id={value}
                 index={index}
                 style={getItemStyles}
-                renderItem={renderItem}
                 containerId={containerId}
                 getIndex={getIndex}
               />

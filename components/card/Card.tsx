@@ -17,7 +17,6 @@ const Card = memo(
       index,
       listeners,
       onRemove,
-      renderItem,
       sorting,
       style,
       transition,
@@ -26,19 +25,7 @@ const Card = memo(
       wrapperStyle,
       ...props
     } = cardProps
-    const itemArgs = {
-      dragOverlay: !!dragOverlay,
-      dragging: !!dragging,
-      sorting: !!sorting,
-      index,
-      fadeIn: !!fadeIn,
-      listeners,
-      ref,
-      style,
-      transform,
-      transition,
-      value,
-    }
+
     const liClassName = classNames(
       styles.wrapper,
       fadeIn && styles.fadeIn,
@@ -63,9 +50,7 @@ const Card = memo(
       disabled && styles.disabled,
       color && styles.color
     )
-    return renderItem ? (
-      renderItem(itemArgs)
-    ) : (
+    return (
       <li className={liClassName} style={liStyle} ref={ref}>
         <div
           className={divClassName}
