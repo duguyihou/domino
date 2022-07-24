@@ -10,8 +10,7 @@ const animateLayoutChanges: AnimateLayoutChanges = (args) =>
 const DroppableContainer = (
   droppableContainerProps: DroppableContainerProps
 ) => {
-  const { children, disabled, id, items, style, ...props } =
-    droppableContainerProps
+  const { children, id, items, style, ...props } = droppableContainerProps
   const {
     active,
     attributes,
@@ -32,14 +31,15 @@ const DroppableContainer = (
       items.includes(over.id)
     : false
 
+  const columnStyle = {
+    ...style,
+    transition,
+    opacity: isDragging ? 0.5 : undefined,
+  }
   return (
     <Column
-      ref={disabled ? undefined : setNodeRef}
-      style={{
-        ...style,
-        transition,
-        opacity: isDragging ? 0.5 : undefined,
-      }}
+      ref={setNodeRef}
+      style={columnStyle}
       hover={isOverContainer}
       handleProps={{
         ...attributes,

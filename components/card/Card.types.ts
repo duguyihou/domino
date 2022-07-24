@@ -6,10 +6,8 @@ import type { Transform } from '@dnd-kit/utilities'
 export type CardProps = {
   dragOverlay?: boolean
   color?: string
-  disabled?: boolean
   dragging?: boolean
   handle?: boolean
-  height?: number
   index?: number
   fadeIn?: boolean
   transform: Transform | null

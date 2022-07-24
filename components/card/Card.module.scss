@@ -92,15 +92,6 @@ $focused-outline-color: #4c9ffe;
     }
   }
 
-  &.disabled {
-    color: #999;
-    background-color: #f1f1f1;
-    &:focus {
-      box-shadow: 0 0px 4px 1px rgba(0, 0, 0, 0.1), $box-shadow;
-    }
-    cursor: not-allowed;
-  }
-
   &.dragOverlay {
     cursor: inherit;
     /* box-shadow: 0 0px 6px 2px $focused-outline-color; */
