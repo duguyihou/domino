@@ -2,11 +2,9 @@ import { Dispatch, SetStateAction } from 'react'
 
 import type { DragEndEvent, UniqueIdentifier } from '@dnd-kit/core'
 import { arrayMove } from '@dnd-kit/sortable'
-import { unstable_batchedUpdates } from 'react-dom'
 
 import { Cards } from '../types/board'
 import { findContainer } from '../utils/findContainer'
-import { getNextContainerId } from '../utils/getNextContainerId'
 
 type OnDragEndArgs = {
   onDragEndArgs: {
@@ -17,7 +15,6 @@ type OnDragEndArgs = {
   }
 }
 
-const PLACEHOLDER_ID = 'placeholder'
 export const useOnDragEnd = ({ onDragEndArgs }: OnDragEndArgs) => {
   const { setActiveId, setContainers, items, setItems } = onDragEndArgs
 
@@ -43,23 +40,6 @@ export const useOnDragEnd = ({ onDragEndArgs }: OnDragEndArgs) => {
 
     if (!overId) {
       setActiveId(null)
-      return
-    }
-
-    if (overId === PLACEHOLDER_ID) {
-      const newContainerId = getNextContainerId(items)
-
-      unstable_batchedUpdates(() => {
-        setContainers((containers) => [...containers, newContainerId])
-        setItems((items) => ({
-          ...items,
-          [activeContainer]: items[activeContainer].filter(
-            (id) => id !== activeId
-          ),
-          [newContainerId]: [active.id],
-        }))
-        setActiveId(null)
-      })
       return
     }
 

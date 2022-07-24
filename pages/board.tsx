@@ -1,7 +1,6 @@
 import React from 'react'
 
 import { DndContext } from '@dnd-kit/core'
-import type { UniqueIdentifier } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 
 import { DroppableContainer } from '../components/droppableContainer'
@@ -12,7 +11,6 @@ import { BoardProps } from '../types/board'
 import { getIndex } from '../utils/getIndex'
 
 const PLACEHOLDER_ID = 'placeholder'
-const empty: UniqueIdentifier[] = []
 
 const Board = (boardProps: BoardProps) => {
   const {
@@ -28,7 +26,6 @@ const Board = (boardProps: BoardProps) => {
     containers,
     items,
     isSortingContainer,
-    handleAddColumn,
     handleRemove,
   } = useBoard(initialCards)
 
@@ -46,6 +43,7 @@ const Board = (boardProps: BoardProps) => {
           {items[containerId].map((value, index) => {
             return (
               <SortableCard
+                items={items[containerId]}
                 disabled={isSortingContainer}
                 key={value}
                 id={value}
@@ -69,15 +67,6 @@ const Board = (boardProps: BoardProps) => {
           strategy={strategy}
         >
           {renderDroppableContainers()}
-          <DroppableContainer
-            id={PLACEHOLDER_ID}
-            disabled={isSortingContainer}
-            items={empty}
-            onClick={handleAddColumn}
-            placeholder
-          >
-            + Add column
-          </DroppableContainer>
         </SortableContext>
       </div>
     </DndContext>

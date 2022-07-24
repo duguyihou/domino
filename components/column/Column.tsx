@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react'
+import React, { forwardRef, LegacyRef } from 'react'
 
 import classNames from 'classnames'
 
@@ -23,7 +23,6 @@ const Column = forwardRef<HTMLDivElement | HTMLButtonElement, ColumnProps>(
       unstyled,
       ...props
     } = columnProps
-    const Component = onClick ? 'button' : 'div'
     const componentClassName = classNames(
       styles.container,
       unstyled && styles.unstyled,
@@ -33,14 +32,37 @@ const Column = forwardRef<HTMLDivElement | HTMLButtonElement, ColumnProps>(
       scrollable && styles.scrollable,
       shadow && styles.shadow
     )
+    if (onClick) {
+      return (
+        <button
+          {...props}
+          ref={ref as LegacyRef<HTMLButtonElement> | undefined}
+          style={style}
+          className={componentClassName}
+          onClick={onClick}
+          tabIndex={0}
+        >
+          {label && (
+            <div className={styles.header}>
+              {label}
+              <div className={styles.actions}>
+                {onRemove ? <Remove onClick={onRemove} /> : undefined}
+                <Handle {...handleProps} />
+              </div>
+            </div>
+          )}
+          {placeholder ? children : <ul>{children}</ul>}
+        </button>
+      )
+    }
     return (
-      <Component
+      <div
         {...props}
-        ref={ref}
+        ref={ref as LegacyRef<HTMLDivElement> | undefined}
         style={style}
         className={componentClassName}
         onClick={onClick}
-        tabIndex={onClick ? 0 : undefined}
+        tabIndex={undefined}
       >
         {label && (
           <div className={styles.header}>
@@ -52,7 +74,7 @@ const Column = forwardRef<HTMLDivElement | HTMLButtonElement, ColumnProps>(
           </div>
         )}
         {placeholder ? children : <ul>{children}</ul>}
-      </Component>
+      </div>
     )
   }
 )
