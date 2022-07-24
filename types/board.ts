@@ -1,4 +1,4 @@
-import { CSSProperties, JSXElementConstructor, ReactElement } from 'react'
+import { CSSProperties } from 'react'
 
 import type { UniqueIdentifier } from '@dnd-kit/core'
 import type { SortingStrategy } from '@dnd-kit/sortable'
