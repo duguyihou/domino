@@ -3,8 +3,8 @@ import { Dispatch, SetStateAction } from 'react'
 import type { DragEndEvent, UniqueIdentifier } from '@dnd-kit/core'
 import { arrayMove } from '@dnd-kit/sortable'
 
-import { Cards } from '../types/board'
-import { findContainer } from '../utils/findContainer'
+import { Cards } from '../../types/board'
+import { findContainer } from '../../utils/findContainer'
 
 type OnDragEndArgs = {
   onDragEndArgs: {

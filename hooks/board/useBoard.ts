@@ -3,8 +3,7 @@ import { useRef, useState } from 'react'
 import { MeasuringStrategy } from '@dnd-kit/core'
 import type { UniqueIdentifier } from '@dnd-kit/core'
 
-import { Cards } from '../types/board'
-import { getNextContainerId } from '../utils/getNextContainerId'
+import { Cards } from '../../types/board'
 import { useBoardSensors } from './useBoardSensors'
 import { useOnDragCancel } from './useOnDragCancel'
 import { useOnDragEnd } from './useOnDragEnd'
@@ -68,7 +67,6 @@ export const useBoard = (initialItems?: Cards) => {
     columns,
     items,
     isSortingContainer,
-    getNextContainerId,
     handleRemove,
   }
 }
