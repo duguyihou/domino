@@ -1,9 +1,7 @@
 import { useSortable } from '@dnd-kit/sortable'
 
 import { useMountStatus } from '../../hooks'
-import { getIndex } from '../../utils/getIndex'
-import { Card } from '../card'
-import { SortableCardProps } from './SortableCard.type'
+import { CardSortableProps } from './Card.types'
 
 function getColor(id: string) {
   switch (id[0]) {
@@ -19,9 +17,8 @@ function getColor(id: string) {
 
   return undefined
 }
-
-const SortableCard = ({ sortableCardProps }: SortableCardProps) => {
-  const { id, index, style, columnId, items } = sortableCardProps
+export const useCardSortable = (cardSortableProps: CardSortableProps) => {
+  const { id, style, getIndex, items, index, columnId } = cardSortableProps
   const {
     setNodeRef,
     listeners,
@@ -31,9 +28,7 @@ const SortableCard = ({ sortableCardProps }: SortableCardProps) => {
     overIndex,
     transform,
     transition,
-  } = useSortable({
-    id,
-  })
+  } = useSortable({ id })
   const mounted = useMountStatus()
   const mountedWhileDragging = isDragging && !mounted
   const cardStyle = style({
@@ -44,21 +39,17 @@ const SortableCard = ({ sortableCardProps }: SortableCardProps) => {
     overIndex: over ? getIndex(over.id as string, items) : overIndex,
     columnId,
   })
-  return (
-    <Card
-      ref={setNodeRef}
-      value={id}
-      dragging={isDragging}
-      sorting={isSorting}
-      index={index}
-      style={cardStyle}
-      color={getColor(id)}
-      transition={transition}
-      transform={transform}
-      fadeIn={mountedWhileDragging}
-      listeners={listeners}
-    />
-  )
+  return {
+    setNodeRef,
+    id,
+    isDragging,
+    isSorting,
+    index,
+    cardStyle,
+    transition,
+    transform,
+    mountedWhileDragging,
+    listeners,
+    color: getColor(id),
+  }
 }
-
-export default SortableCard

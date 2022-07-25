@@ -1,73 +1,57 @@
-import React, { memo, forwardRef, CSSProperties } from 'react'
+import React, { memo, CSSProperties } from 'react'
 
 import classNames from 'classnames'
 
-import { Remove } from '../common'
 import styles from './Card.module.scss'
 import { CardProps } from './Card.types'
+import { useCardSortable } from './useCardSortable'
 
-const Card = memo(
-  forwardRef<HTMLLIElement, CardProps>((cardProps, ref) => {
-    const {
-      color,
-      dragOverlay,
-      dragging,
-      fadeIn,
-      index,
-      listeners,
-      onRemove,
-      sorting,
-      style,
-      transition,
-      transform,
-      value,
-      wrapperStyle,
-      ...props
-    } = cardProps
+const Card = memo((cardProps: CardProps) => {
+  const { value, sortableProps } = cardProps
+  const {
+    setNodeRef,
+    isDragging,
+    isSorting,
+    index,
+    cardStyle,
+    transition,
+    transform,
+    mountedWhileDragging,
+    listeners,
+    color,
+  } = useCardSortable(sortableProps)
+  const cardClassName = classNames(
+    styles.wrapper,
+    mountedWhileDragging && styles.fadeIn,
+    isSorting && styles.sorting
+  )
+  const containerStyle = {
+    transition,
+    '--translate-x': transform ? `${Math.round(transform.x)}px` : undefined,
+    '--translate-y': transform ? `${Math.round(transform.y)}px` : undefined,
+    '--scale-x': transform?.scaleX ? `${transform.scaleX}` : undefined,
+    '--scale-y': transform?.scaleY ? `${transform.scaleY}` : undefined,
+    '--index': index,
+    '--color': color,
+  } as CSSProperties
 
-    const liClassName = classNames(
-      styles.wrapper,
-      fadeIn && styles.fadeIn,
-      sorting && styles.sorting,
-      dragOverlay && styles.dragOverlay
-    )
-    const liStyle = {
-      ...wrapperStyle,
-      transition,
-      '--translate-x': transform ? `${Math.round(transform.x)}px` : undefined,
-      '--translate-y': transform ? `${Math.round(transform.y)}px` : undefined,
-      '--scale-x': transform?.scaleX ? `${transform.scaleX}` : undefined,
-      '--scale-y': transform?.scaleY ? `${transform.scaleY}` : undefined,
-      '--index': index,
-      '--color': color,
-    } as CSSProperties
-
-    const divClassName = classNames(
-      styles.item,
-      dragging && styles.dragging,
-      dragOverlay && styles.dragOverlay,
-      color && styles.color
-    )
-    return (
-      <li className={liClassName} style={liStyle} ref={ref}>
-        <div
-          className={divClassName}
-          style={style}
-          data-cypress="draggable-item"
-          {...listeners}
-          {...props}
-          tabIndex={0}
-        >
-          {value}
-          <span className={styles.Actions}>
-            {onRemove ? (
-              <Remove className={styles.Remove} onClick={onRemove} />
-            ) : null}
-          </span>
-        </div>
-      </li>
-    )
-  })
-)
+  const divClassName = classNames(
+    styles.item,
+    isDragging && styles.dragging,
+    color && styles.color
+  )
+  return (
+    <li className={cardClassName} style={containerStyle} ref={setNodeRef}>
+      <div
+        className={divClassName}
+        style={cardStyle}
+        data-cypress="draggable-item"
+        {...listeners}
+      >
+        {value}
+      </div>
+    </li>
+  )
+})
 Card.displayName = 'Card'
 export default Card

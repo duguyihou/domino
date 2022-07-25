@@ -1,21 +1,16 @@
-import { ReactNode, CSSProperties } from 'react'
+import { ReactNode } from 'react'
 
-import type { DraggableSyntheticListeners } from '@dnd-kit/core'
-import type { Transform } from '@dnd-kit/utilities'
+import { Cards } from '../../types/board'
 
+export type CardSortableProps = {
+  columnId: string
+  id: string
+  index: number
+  items: Cards
+  style(args: any): React.CSSProperties
+  getIndex(id: string, items: Cards): number | undefined
+}
 export type CardProps = {
-  dragOverlay?: boolean
-  color?: string
-  dragging?: boolean
-  handle?: boolean
-  index?: number
-  fadeIn?: boolean
-  transform: Transform | null
-  listeners?: DraggableSyntheticListeners
-  sorting?: boolean
-  style?: CSSProperties
-  transition?: string | null
-  wrapperStyle?: CSSProperties
+  sortableProps: CardSortableProps
   value: ReactNode
-  onRemove?(): void
 }

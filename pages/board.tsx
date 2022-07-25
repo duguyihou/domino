@@ -3,8 +3,8 @@ import React from 'react'
 import { DndContext } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 
+import { Card } from '../components/card'
 import { Column } from '../components/column'
-import { SortableCard } from '../components/sortableCard'
 import { useBoard } from '../hooks/useBoard'
 import styles from '../styles/board.module.scss'
 import { BoardProps, Cards } from '../types/board'
@@ -30,15 +30,17 @@ const Board = (boardProps: BoardProps) => {
       >
         <SortableContext items={items[columnId]} strategy={strategy}>
           {items[columnId].map((value, index) => {
-            const sortableCardProps = {
+            const sortableProps = {
               id: value,
+              style: getItemStyles,
+              getIndex,
+              items: items[columnId] as unknown as Cards,
               index,
               columnId,
-              getIndex,
-              style: getItemStyles,
-              items: items[columnId] as unknown as Cards,
             }
-            return <SortableCard key={value} {...{ sortableCardProps }} />
+            const cardProps = { value, sortableProps }
+
+            return <Card key={value} {...cardProps} />
           })}
         </SortableContext>
       </Column>
