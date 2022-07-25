@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction } from 'react'
 
 import type { UniqueIdentifier } from '@dnd-kit/core'
 
-import { Cards } from '../types/board'
+import { Cards } from '../../types/board'
 
 type OnDragCancelArgs = {
   onDragCancelArgs: {

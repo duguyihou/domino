@@ -17,35 +17,23 @@ function getColor(id: string) {
 
   return undefined
 }
-export const useCardSortable = (cardSortableProps: CardSortableProps) => {
-  const { id, style, getIndex, items, index, columnId } = cardSortableProps
+export const useCardSortable = ({ id }: CardSortableProps) => {
   const {
     setNodeRef,
     listeners,
     isDragging,
     isSorting,
-    over,
-    overIndex,
     transform,
     transition,
   } = useSortable({ id })
   const mounted = useMountStatus()
   const mountedWhileDragging = isDragging && !mounted
-  const cardStyle = style({
-    index,
-    value: id,
-    isDragging,
-    isSorting,
-    overIndex: over ? getIndex(over.id as string, items) : overIndex,
-    columnId,
-  })
+
   return {
     setNodeRef,
     id,
     isDragging,
     isSorting,
-    index,
-    cardStyle,
     transition,
     transform,
     mountedWhileDragging,

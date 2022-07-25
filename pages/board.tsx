@@ -5,52 +5,41 @@ import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 
 import { Card } from '../components/card'
 import { Column } from '../components/column'
-import { useBoard } from '../hooks/useBoard'
+import { useBoard } from '../hooks'
 import styles from '../styles/board.module.scss'
-import { BoardProps, Cards } from '../types/board'
-import { getIndex } from '../utils/getIndex'
+import { BoardProps } from '../types/board'
 
 const Board = (boardProps: BoardProps) => {
-  const {
-    initialCards,
-    getItemStyles = () => ({}),
-    strategy = verticalListSortingStrategy,
-  } = boardProps
+  const { initialCards, strategy = verticalListSortingStrategy } = boardProps
 
   const { dndContextConfig, columns, items, handleRemove } =
     useBoard(initialCards)
 
-  const renderDroppableColumns = () => {
-    return columns.map((columnId) => (
-      <Column
-        key={columnId}
-        label={`Column ${columnId}`}
-        onRemove={() => handleRemove(columnId)}
-        droppableProps={{ id: columnId, items: items[columnId] }}
-      >
-        <SortableContext items={items[columnId]} strategy={strategy}>
-          {items[columnId].map((value, index) => {
-            const sortableProps = {
-              id: value,
-              style: getItemStyles,
-              getIndex,
-              items: items[columnId] as unknown as Cards,
-              index,
-              columnId,
-            }
-            const cardProps = { value, sortableProps }
-
-            return <Card key={value} {...cardProps} />
-          })}
-        </SortableContext>
-      </Column>
-    ))
+  const Columns = () => {
+    return (
+      <>
+        {columns.map((columnId) => (
+          <Column
+            key={columnId}
+            label={`Column ${columnId}`}
+            onRemove={() => handleRemove(columnId)}
+            droppableProps={{ id: columnId, items: items[columnId] }}
+          >
+            <SortableContext items={items[columnId]} strategy={strategy}>
+              {items[columnId].map((value, index) => (
+                <Card key={value} value={value} index={index} />
+              ))}
+            </SortableContext>
+          </Column>
+        ))}
+      </>
+    )
   }
   return (
     <DndContext {...dndContextConfig}>
       <div className={styles.container}>
         <SortableContext items={columns} strategy={strategy}>
-          {renderDroppableColumns()}
+          <Columns />
         </SortableContext>
       </div>
     </DndContext>
