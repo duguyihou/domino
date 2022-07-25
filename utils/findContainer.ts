@@ -1,8 +1,8 @@
 import type { UniqueIdentifier } from '@dnd-kit/core'
 
-import { Cards } from '../types/board'
+import { Columns } from '../types/board'
 
-export const findContainer = (id: UniqueIdentifier, items: Cards) => {
+export const findContainer = (id: UniqueIdentifier, items: Columns) => {
   if (id in items) return id
   return Object.keys(items).find((key) => items[key].includes(id as string))
 }

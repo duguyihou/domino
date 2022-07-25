@@ -2,13 +2,13 @@ import { Dispatch, SetStateAction } from 'react'
 
 import type { DragStartEvent, UniqueIdentifier } from '@dnd-kit/core'
 
-import { Cards } from '../../types/board'
+import { Columns } from '../../types/board'
 
 type OnDragStartArgs = {
   onDragStartArgs: {
     setActiveId: Dispatch<SetStateAction<UniqueIdentifier | null>>
-    setClonedItems: Dispatch<SetStateAction<Cards | null>>
-    items: Cards
+    setClonedItems: Dispatch<SetStateAction<Columns | null>>
+    items: Columns
   }
 }
 export const useOnDragStart = ({ onDragStartArgs }: OnDragStartArgs) => {

@@ -3,25 +3,25 @@ import { Dispatch, SetStateAction } from 'react'
 import type { DragEndEvent, UniqueIdentifier } from '@dnd-kit/core'
 import { arrayMove } from '@dnd-kit/sortable'
 
-import { Cards } from '../../types/board'
+import { Columns } from '../../types/board'
 import { findContainer } from '../../utils/findContainer'
 
 type OnDragEndArgs = {
   onDragEndArgs: {
     setActiveId: Dispatch<SetStateAction<UniqueIdentifier | null>>
-    setColumns: Dispatch<SetStateAction<string[]>>
-    setItems: Dispatch<SetStateAction<Cards>>
-    items: Cards
+    setColumnNames: Dispatch<SetStateAction<string[]>>
+    setItems: Dispatch<SetStateAction<Columns>>
+    items: Columns
   }
 }
 
 export const useOnDragEnd = ({ onDragEndArgs }: OnDragEndArgs) => {
-  const { setActiveId, setColumns, items, setItems } = onDragEndArgs
+  const { setActiveId, setColumnNames, items, setItems } = onDragEndArgs
 
   const onDragEnd = ({ active, over }: DragEndEvent) => {
     if (!items) return
     if (active.id in items && over?.id) {
-      setColumns((containers) => {
+      setColumnNames((containers) => {
         const activeIndex = containers.indexOf(active.id as string)
         const overIndex = containers.indexOf(over.id as string)
 

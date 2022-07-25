@@ -2,13 +2,13 @@ import { Dispatch, MutableRefObject, SetStateAction } from 'react'
 
 import type { DragOverEvent } from '@dnd-kit/core'
 
-import { Cards } from '../../types/board'
+import { Columns } from '../../types/board'
 import { findContainer } from '../../utils/findContainer'
 
 type OnDragOverArgs = {
   onDragOverArgs: {
-    items: Cards
-    setItems: Dispatch<SetStateAction<Cards>>
+    items: Columns
+    setItems: Dispatch<SetStateAction<Columns>>
     recentlyMovedToNewContainer: MutableRefObject<boolean>
   }
 }

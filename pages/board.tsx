@@ -10,18 +10,25 @@ import styles from '../styles/board.module.scss'
 import { BoardProps } from '../types/board'
 
 const Board = (boardProps: BoardProps) => {
-  const { initialCards, strategy = verticalListSortingStrategy } = boardProps
+  const {
+    initialColumns = {
+      Todo: ['A1', 'A2', 'A3'],
+      Doing: ['B1', 'B2', 'B3'],
+      Done: ['C1', 'C2', 'C3'],
+    },
+    strategy = verticalListSortingStrategy,
+  } = boardProps
 
-  const { dndContextConfig, columns, items, handleRemove } =
-    useBoard(initialCards)
+  const { dndContextConfig, columnNames, items, handleRemove } =
+    useBoard(initialColumns)
 
   const Columns = () => {
     return (
       <>
-        {columns.map((columnId) => (
+        {columnNames.map((columnId) => (
           <Column
             key={columnId}
-            label={`Column ${columnId}`}
+            label={columnId}
             onRemove={() => handleRemove(columnId)}
             droppableProps={{ id: columnId, items: items[columnId] }}
           >
@@ -38,7 +45,7 @@ const Board = (boardProps: BoardProps) => {
   return (
     <DndContext {...dndContextConfig}>
       <div className={styles.container}>
-        <SortableContext items={columns} strategy={strategy}>
+        <SortableContext items={columnNames} strategy={strategy}>
           <Columns />
         </SortableContext>
       </div>
