@@ -16,10 +16,9 @@ const Card = memo((cardProps: CardProps) => {
     transform,
     mountedWhileDragging,
     listeners,
-    color,
   } = useCardSortable({ id: value?.toString() })
   const cardClassName = classNames(
-    styles.wrapper,
+    styles.card,
     mountedWhileDragging && styles.fadeIn,
     isSorting && styles.sorting
   )
@@ -30,14 +29,9 @@ const Card = memo((cardProps: CardProps) => {
     '--scale-x': transform?.scaleX ? `${transform.scaleX}` : undefined,
     '--scale-y': transform?.scaleY ? `${transform.scaleY}` : undefined,
     '--index': index,
-    '--color': color,
   } as CSSProperties
 
-  const divClassName = classNames(
-    styles.item,
-    isDragging && styles.dragging,
-    color && styles.color
-  )
+  const divClassName = classNames(styles.item, isDragging && styles.dragging)
   return (
     <li className={cardClassName} style={containerStyle} ref={setNodeRef}>
       <div

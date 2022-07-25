@@ -1,12 +1,11 @@
 .container {
-  @apply text-base rounded-md w-80 m-2 transition-all;
+  @apply text-base rounded-md w-80 h-fit max-h-full m-2 transition-all;
   @apply flex flex-col appearance-none outline-none;
-  @apply bg-slate-50 border border-slate-200;
+  @apply bg-slate-200 border border-slate-200;
   @apply focus-visible:border-none;
 
   ul {
-    @apply list-none p-5 m-0;
-    @apply grid gap-2 grid-cols-1;
+    @apply list-none p-2 m-0 h-fit;
   }
 }
 
@@ -15,9 +14,9 @@
 }
 
 .header {
-  @apply flex  justify-between items-center;
+  @apply flex justify-between items-center;
   @apply py-1 pl-5 pr-2 bg-white;
-  @apply border-y-4 border-b-2;
+  @apply rounded-t-md;
 
   &:hover {
     .actions > * {
