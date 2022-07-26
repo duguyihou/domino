@@ -2,26 +2,26 @@ import { Dispatch, SetStateAction } from 'react'
 
 import type { UniqueIdentifier } from '@dnd-kit/core'
 
-import { Cards } from '../../types/board'
+import { ColumnsDTO } from '../../components/column'
 
 type OnDragCancelArgs = {
   onDragCancelArgs: {
     setActiveId: Dispatch<SetStateAction<UniqueIdentifier | null>>
-    setClonedItems: Dispatch<SetStateAction<Cards | null>>
-    setItems: Dispatch<SetStateAction<Cards>>
-    clonedItems: Cards | null
+    setColumns: Dispatch<SetStateAction<ColumnsDTO>>
+    clonedColumns: ColumnsDTO | null
+    setClonedColumns: Dispatch<SetStateAction<ColumnsDTO | null>>
   }
 }
 export const useOnDragCancel = ({ onDragCancelArgs }: OnDragCancelArgs) => {
-  const { setActiveId, setClonedItems, setItems, clonedItems } =
+  const { setActiveId, setClonedColumns, setColumns, clonedColumns } =
     onDragCancelArgs
   const onDragCancel = () => {
-    if (clonedItems) {
-      setItems(clonedItems)
+    if (clonedColumns) {
+      setColumns(clonedColumns)
     }
 
     setActiveId(null)
-    setClonedItems(null)
+    setClonedColumns(null)
   }
   return onDragCancel
 }

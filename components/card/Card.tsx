@@ -8,6 +8,7 @@ import { useCardSortable } from './useCardSortable'
 
 const Card = memo((cardProps: CardProps) => {
   const { value, index } = cardProps
+  const { id } = value
   const {
     setNodeRef,
     isDragging,
@@ -16,7 +17,7 @@ const Card = memo((cardProps: CardProps) => {
     transform,
     mountedWhileDragging,
     listeners,
-  } = useCardSortable({ id: value?.toString() })
+  } = useCardSortable({ id: id as string })
   const cardClassName = classNames(
     styles.card,
     mountedWhileDragging && styles.fadeIn,
@@ -39,7 +40,7 @@ const Card = memo((cardProps: CardProps) => {
         data-cypress="draggable-item"
         {...listeners}
       >
-        {value}
+        {value.title}
       </div>
     </li>
   )

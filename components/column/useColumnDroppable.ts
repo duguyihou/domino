@@ -9,7 +9,7 @@ const animateLayoutChanges: AnimateLayoutChanges = (args) =>
 export const useColumnDroppable = (
   columnDroppableProps: ColumnDroppableProps
 ) => {
-  const { id, items } = columnDroppableProps
+  const { id, cards } = columnDroppableProps
   const {
     active,
     attributes,
@@ -25,9 +25,10 @@ export const useColumnDroppable = (
     },
     animateLayoutChanges,
   })
+  const cardIds = cards.map(({ id }) => id)
   const isOverColumn = over
     ? (id === over.id && active?.data.current?.type !== 'container') ||
-      items.includes(over.id)
+      cardIds.includes(over.id)
     : false
 
   const style = {

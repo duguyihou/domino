@@ -3,28 +3,21 @@ import { useRef, useState } from 'react'
 import { MeasuringStrategy } from '@dnd-kit/core'
 import type { UniqueIdentifier } from '@dnd-kit/core'
 
-import { Cards } from '../../types/board'
+import { ColumnsDTO } from '../../components/column'
 import { useBoardSensors } from './useBoardSensors'
 import { useOnDragCancel } from './useOnDragCancel'
 import { useOnDragEnd } from './useOnDragEnd'
 import { useOnDragOver } from './useOnDragOver'
 import { useOnDragStart } from './useOnDragStart'
-export const TRASH_ID = 'void'
 
-export const useBoard = (initialItems?: Cards) => {
-  const [items, setItems] = useState<Cards>(
-    initialItems ?? {
-      A: ['A1', 'A2', 'A3'],
-      B: ['B1', 'B2', 'B3'],
-      C: ['C1', 'C2', 'C3'],
-    }
-  )
-  const [columns, setColumns] = useState(Object.keys(items))
+export const useBoard = (initialColumns: ColumnsDTO) => {
+  const [columns, setColumns] = useState<ColumnsDTO>(initialColumns)
+  const [columnNames, setColumnNames] = useState(Object.keys(columns))
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null)
   const recentlyMovedToNewContainer = useRef(false)
-  const [clonedItems, setClonedItems] = useState<Cards | null>(null)
+  const [clonedColumns, setClonedColumns] = useState<ColumnsDTO | null>(null)
   const isSortingContainer = activeId
-    ? columns.includes(activeId as string)
+    ? columnNames.includes(activeId as string)
     : false
   const sensors = useBoardSensors()
 
@@ -34,26 +27,23 @@ export const useBoard = (initialItems?: Cards) => {
     },
   }
   // onDragStart
-  const onDragStartArgs = { setActiveId, setClonedItems, items }
+  const onDragStartArgs = { setActiveId, setClonedColumns, columns }
   const onDragStart = useOnDragStart({ onDragStartArgs })
   // onDragOver
-  const onDragOverArgs = { items, setItems, recentlyMovedToNewContainer }
+  const onDragOverArgs = { columns, setColumns, recentlyMovedToNewContainer }
   const onDragOver = useOnDragOver({ onDragOverArgs })
   // onDragEnd
-  const onDragEndArgs = { setActiveId, setColumns, items, setItems }
+  const onDragEndArgs = { setActiveId, setColumnNames, columns, setColumns }
   const onDragEnd = useOnDragEnd({ onDragEndArgs })
   // onDragCancel
   const onDragCancelArgs = {
     setActiveId,
-    setClonedItems,
-    setItems,
-    clonedItems,
+    setClonedColumns,
+    setColumns,
+    clonedColumns,
   }
   const onDragCancel = useOnDragCancel({ onDragCancelArgs })
 
-  function handleRemove(containerID: UniqueIdentifier) {
-    setColumns((columns) => columns.filter((id) => id !== containerID))
-  }
   const dndContextConfig = {
     sensors,
     measuring,
@@ -64,9 +54,8 @@ export const useBoard = (initialItems?: Cards) => {
   }
   return {
     dndContextConfig,
+    columnNames,
     columns,
-    items,
     isSortingContainer,
-    handleRemove,
   }
 }

@@ -2,37 +2,39 @@ import { Dispatch, MutableRefObject, SetStateAction } from 'react'
 
 import type { DragOverEvent } from '@dnd-kit/core'
 
-import { Cards } from '../../types/board'
+import { ColumnsDTO } from '../../components/column'
 import { findContainer } from '../../utils/findContainer'
 
 type OnDragOverArgs = {
   onDragOverArgs: {
-    items: Cards
-    setItems: Dispatch<SetStateAction<Cards>>
+    columns: ColumnsDTO
+    setColumns: Dispatch<SetStateAction<ColumnsDTO>>
     recentlyMovedToNewContainer: MutableRefObject<boolean>
   }
 }
 export const useOnDragOver = ({ onDragOverArgs }: OnDragOverArgs) => {
-  const { items, setItems, recentlyMovedToNewContainer } = onDragOverArgs
+  const { columns, setColumns, recentlyMovedToNewContainer } = onDragOverArgs
   const onDragOver = ({ active, over }: DragOverEvent) => {
     const overId = over?.id
-    if (!overId || active.id in items) return
+    if (!overId || active.id in columns) return
 
-    const overContainer = findContainer(overId, items)
-    const activeContainer = findContainer(active.id, items)
+    const overContainer = findContainer(overId, columns)
+    const activeContainer = findContainer(active.id, columns)
 
     if (!overContainer || !activeContainer) return
 
     if (activeContainer !== overContainer) {
-      setItems((items) => {
-        const activeItems = items[activeContainer]
-        const overItems = items[overContainer]
-        const overIndex = overItems.indexOf(overId as string)
-        const activeIndex = activeItems.indexOf(active.id as string)
+      setColumns((columns) => {
+        const activeItems = columns[activeContainer]
+        const overItems = columns[overContainer]
+        const activeItemIds = activeItems.map(({ id }) => id)
+        const overItemIds = overItems.map(({ id }) => id)
+        const overIndex = overItemIds.indexOf(overId as string)
+        const activeIndex = activeItemIds.indexOf(active.id as string)
 
         let newIndex: number
 
-        if (overId in items) {
+        if (overId in columns) {
           newIndex = overItems.length + 1
         } else {
           const isBelowOverItem =
@@ -49,16 +51,16 @@ export const useOnDragOver = ({ onDragOverArgs }: OnDragOverArgs) => {
         recentlyMovedToNewContainer.current = true
 
         return {
-          ...items,
-          [activeContainer]: items[activeContainer].filter(
-            (item) => item !== active.id
+          ...columns,
+          [activeContainer]: columns[activeContainer].filter(
+            (item) => item.id !== active.id
           ),
           [overContainer]: [
-            ...items[overContainer].slice(0, newIndex),
-            items[activeContainer][activeIndex],
-            ...items[overContainer].slice(
+            ...columns[overContainer].slice(0, newIndex),
+            columns[activeContainer][activeIndex],
+            ...columns[overContainer].slice(
               newIndex,
-              items[overContainer].length
+              columns[overContainer].length
             ),
           ],
         }

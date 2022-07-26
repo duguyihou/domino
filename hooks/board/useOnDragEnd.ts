@@ -3,25 +3,25 @@ import { Dispatch, SetStateAction } from 'react'
 import type { DragEndEvent, UniqueIdentifier } from '@dnd-kit/core'
 import { arrayMove } from '@dnd-kit/sortable'
 
-import { Cards } from '../../types/board'
+import { ColumnsDTO } from '../../components/column'
 import { findContainer } from '../../utils/findContainer'
 
 type OnDragEndArgs = {
   onDragEndArgs: {
     setActiveId: Dispatch<SetStateAction<UniqueIdentifier | null>>
-    setColumns: Dispatch<SetStateAction<string[]>>
-    setItems: Dispatch<SetStateAction<Cards>>
-    items: Cards
+    setColumnNames: Dispatch<SetStateAction<string[]>>
+    setColumns: Dispatch<SetStateAction<ColumnsDTO>>
+    columns: ColumnsDTO
   }
 }
 
 export const useOnDragEnd = ({ onDragEndArgs }: OnDragEndArgs) => {
-  const { setActiveId, setColumns, items, setItems } = onDragEndArgs
+  const { setActiveId, setColumnNames, columns, setColumns } = onDragEndArgs
 
   const onDragEnd = ({ active, over }: DragEndEvent) => {
-    if (!items) return
-    if (active.id in items && over?.id) {
-      setColumns((containers) => {
+    if (!columns) return
+    if (active.id in columns && over?.id) {
+      setColumnNames((containers) => {
         const activeIndex = containers.indexOf(active.id as string)
         const overIndex = containers.indexOf(over.id as string)
 
@@ -29,7 +29,7 @@ export const useOnDragEnd = ({ onDragEndArgs }: OnDragEndArgs) => {
       })
     }
 
-    const activeContainer = findContainer(active.id, items)
+    const activeContainer = findContainer(active.id, columns)
 
     if (!activeContainer) {
       setActiveId(null)
@@ -43,17 +43,21 @@ export const useOnDragEnd = ({ onDragEndArgs }: OnDragEndArgs) => {
       return
     }
 
-    const overContainer = findContainer(overId, items)
+    const overContainer = findContainer(overId, columns)
 
     if (overContainer) {
-      const activeIndex = items[activeContainer].indexOf(active.id as string)
-      const overIndex = items[overContainer].indexOf(overId as string)
+      const activeIndex = columns[activeContainer]
+        .map((card) => card.id)
+        .indexOf(active.id)
+      const overIndex = columns[overContainer]
+        .map((card) => card.id)
+        .indexOf(overId as string)
 
       if (activeIndex !== overIndex) {
-        setItems((items) => ({
-          ...items,
+        setColumns((columns) => ({
+          ...columns,
           [overContainer]: arrayMove(
-            items[overContainer],
+            columns[overContainer],
             activeIndex,
             overIndex
           ),
