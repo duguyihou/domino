@@ -2,13 +2,13 @@ import React from 'react'
 
 import classNames from 'classnames'
 
-import { Handle, Remove } from '../common'
+import { Handle } from '../common'
 import styles from './Column.module.scss'
 import { ColumnProps } from './Column.types'
 import { useColumnDroppable } from './useColumnDroppable'
 
 const Column = (columnProps: ColumnProps) => {
-  const { droppableProps, children, onRemove, label } = columnProps
+  const { droppableProps, children, label } = columnProps
   const { setNodeRef, style, isOverColumn, attributes, listeners } =
     useColumnDroppable(droppableProps)
   const columnClassName = classNames(
@@ -21,7 +21,6 @@ const Column = (columnProps: ColumnProps) => {
       <div className={styles.header}>
         {label}
         <div className={styles.actions}>
-          {onRemove && <Remove className={styles.remove} onClick={onRemove} />}
           <Handle {...handleProps} />
         </div>
       </div>

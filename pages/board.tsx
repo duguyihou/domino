@@ -12,29 +12,116 @@ import { BoardProps } from '../types/board'
 const Board = (boardProps: BoardProps) => {
   const {
     initialColumns = {
-      Todo: ['A1', 'A2', 'A3'],
-      Doing: ['B1', 'B2', 'B3'],
-      Done: ['C1', 'C2', 'C3'],
+      Todo: [
+        {
+          id: 'a1',
+          title: 'A1',
+          description: 'desc for A1',
+          label: 'epic',
+          priority: 'low',
+        },
+        {
+          id: 'a2',
+          title: 'A2',
+          description: 'desc for A2',
+          label: 'epic',
+          priority: 'low',
+        },
+        {
+          id: 'a3',
+          title: 'A3',
+          description: 'desc for A3',
+          label: 'epic',
+          priority: 'low',
+        },
+        {
+          id: 'a4',
+          title: 'A4',
+          description: 'desc for A4',
+          label: 'epic',
+          priority: 'low',
+        },
+      ],
+      Doing: [
+        {
+          id: 'b1',
+          title: 'B1',
+          description: 'desc for B1',
+          label: 'epic',
+          priority: 'low',
+        },
+        {
+          id: 'b2',
+          title: 'B2',
+          description: 'desc for B2',
+          label: 'epic',
+          priority: 'low',
+        },
+        {
+          id: 'b3',
+          title: 'B3',
+          description: 'desc for B3',
+          label: 'epic',
+          priority: 'low',
+        },
+        {
+          id: 'b4',
+          title: 'B4',
+          description: 'desc for B4',
+          label: 'epic',
+          priority: 'low',
+        },
+      ],
+      Done: [
+        {
+          id: 'c1',
+          title: 'C1',
+          description: 'desc for C1',
+          label: 'epic',
+          priority: 'low',
+        },
+        {
+          id: 'c2',
+          title: 'C2',
+          description: 'desc for C2',
+          label: 'epic',
+          priority: 'low',
+        },
+        {
+          id: 'c3',
+          title: 'C3',
+          description: 'desc for C3',
+          label: 'epic',
+          priority: 'low',
+        },
+        {
+          id: 'c4',
+          title: 'C4',
+          description: 'desc for C4',
+          label: 'epic',
+          priority: 'low',
+        },
+      ],
     },
     strategy = verticalListSortingStrategy,
   } = boardProps
 
-  const { dndContextConfig, columnNames, items, handleRemove } =
-    useBoard(initialColumns)
-
+  const { dndContextConfig, columnNames, columns } = useBoard(initialColumns)
   const Columns = () => {
     return (
       <>
-        {columnNames.map((columnId) => (
+        {columnNames.map((columnName) => (
           <Column
-            key={columnId}
-            label={columnId}
-            onRemove={() => handleRemove(columnId)}
-            droppableProps={{ id: columnId, items: items[columnId] }}
+            key={columnName}
+            label={columnName}
+            droppableProps={{ id: columnName, cards: columns[columnName] }}
           >
-            <SortableContext items={items[columnId]} strategy={strategy}>
-              {items[columnId].map((value, index) => (
-                <Card key={value} value={value} index={index} />
+            <SortableContext
+              items={columns[columnName].map((e) => e.id)}
+              strategy={strategy}
+            >
+              {columns[columnName].map((value, index) => (
+                <Card key={value.id} value={value} index={index} />
               ))}
             </SortableContext>
           </Column>

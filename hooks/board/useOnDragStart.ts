@@ -7,16 +7,16 @@ import { Columns } from '../../types/board'
 type OnDragStartArgs = {
   onDragStartArgs: {
     setActiveId: Dispatch<SetStateAction<UniqueIdentifier | null>>
-    setClonedItems: Dispatch<SetStateAction<Columns | null>>
-    items: Columns
+    setClonedColumns: Dispatch<SetStateAction<Columns | null>>
+    columns: Columns
   }
 }
 export const useOnDragStart = ({ onDragStartArgs }: OnDragStartArgs) => {
-  const { setActiveId, setClonedItems, items } = onDragStartArgs
-  if (!setActiveId || !setClonedItems) return
+  const { setActiveId, setClonedColumns, columns } = onDragStartArgs
+  if (!setActiveId || !setClonedColumns) return
   const onDragStart = ({ active }: DragStartEvent) => {
     setActiveId(active.id)
-    setClonedItems(items)
+    setClonedColumns(columns)
   }
   return onDragStart
 }

@@ -7,21 +7,21 @@ import { Columns } from '../../types/board'
 type OnDragCancelArgs = {
   onDragCancelArgs: {
     setActiveId: Dispatch<SetStateAction<UniqueIdentifier | null>>
-    setClonedItems: Dispatch<SetStateAction<Columns | null>>
-    setItems: Dispatch<SetStateAction<Columns>>
-    clonedItems: Columns | null
+    setColumns: Dispatch<SetStateAction<Columns>>
+    clonedColumns: Columns | null
+    setClonedColumns: Dispatch<SetStateAction<Columns | null>>
   }
 }
 export const useOnDragCancel = ({ onDragCancelArgs }: OnDragCancelArgs) => {
-  const { setActiveId, setClonedItems, setItems, clonedItems } =
+  const { setActiveId, setClonedColumns, setColumns, clonedColumns } =
     onDragCancelArgs
   const onDragCancel = () => {
-    if (clonedItems) {
-      setItems(clonedItems)
+    if (clonedColumns) {
+      setColumns(clonedColumns)
     }
 
     setActiveId(null)
-    setClonedItems(null)
+    setClonedColumns(null)
   }
   return onDragCancel
 }
