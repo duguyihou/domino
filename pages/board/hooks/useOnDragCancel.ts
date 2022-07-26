@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction } from 'react'
 
 import type { UniqueIdentifier } from '@dnd-kit/core'
 
-import { ColumnsDTO } from '../../components/column'
+import { ColumnsDTO } from '../../../components/column'
 
 type OnDragCancelArgs = {
   onDragCancelArgs: {

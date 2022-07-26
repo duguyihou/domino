@@ -3,7 +3,7 @@ import { useRef, useState } from 'react'
 import { MeasuringStrategy } from '@dnd-kit/core'
 import type { UniqueIdentifier } from '@dnd-kit/core'
 
-import { ColumnsDTO } from '../../components/column'
+import { ColumnsDTO } from '../../../components/column'
 import { useBoardSensors } from './useBoardSensors'
 import { useOnDragCancel } from './useOnDragCancel'
 import { useOnDragEnd } from './useOnDragEnd'
