@@ -3,15 +3,15 @@ import { Dispatch, SetStateAction } from 'react'
 import type { DragEndEvent, UniqueIdentifier } from '@dnd-kit/core'
 import { arrayMove } from '@dnd-kit/sortable'
 
-import { Columns } from '../../types/board'
+import { ColumnsDTO } from '../../components/column'
 import { findContainer } from '../../utils/findContainer'
 
 type OnDragEndArgs = {
   onDragEndArgs: {
     setActiveId: Dispatch<SetStateAction<UniqueIdentifier | null>>
     setColumnNames: Dispatch<SetStateAction<string[]>>
-    setColumns: Dispatch<SetStateAction<Columns>>
-    columns: Columns
+    setColumns: Dispatch<SetStateAction<ColumnsDTO>>
+    columns: ColumnsDTO
   }
 }
 

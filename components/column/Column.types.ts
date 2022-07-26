@@ -1,10 +1,14 @@
 import { ReactNode } from 'react'
 
-import { Card } from '../../types/board'
+import type { UniqueIdentifier } from '@dnd-kit/core'
+
+import { CardDTO } from '../card'
+
+export type ColumnsDTO = Record<UniqueIdentifier, CardDTO[]>
 
 export type ColumnDroppableProps = {
   id: string
-  cards: Card[]
+  cards: CardDTO[]
 }
 
 export type ColumnProps = {
