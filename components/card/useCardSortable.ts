@@ -1,7 +1,7 @@
 import { useSortable } from '@dnd-kit/sortable'
 
-import { useMountStatus } from '../../hooks'
 import { CardSortableProps } from './Card.types'
+import { useMountStatus } from './useMountStatus'
 
 export const useCardSortable = ({ id }: CardSortableProps) => {
   const {

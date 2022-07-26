@@ -2,8 +2,8 @@ import { Dispatch, MutableRefObject, SetStateAction } from 'react'
 
 import type { DragOverEvent } from '@dnd-kit/core'
 
-import { ColumnsDTO } from '../../components/column'
-import { findContainer } from '../../utils/findContainer'
+import { ColumnsDTO } from '../../../components/column'
+import { findContainer } from '../../../utils/findContainer'
 
 type OnDragOverArgs = {
   onDragOverArgs: {

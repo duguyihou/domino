@@ -5,9 +5,9 @@ import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 
 import { Card } from '../../components/card'
 import { Column } from '../../components/column'
-import { useBoard } from '../../hooks'
 import styles from './board.module.scss'
 import { BoardProps } from './board.type'
+import { useBoard } from './hooks'
 
 const Board = (boardProps: BoardProps) => {
   const {
