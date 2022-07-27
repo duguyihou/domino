@@ -1,0 +1,92 @@
+export const initialColumns = {
+  Todo: [
+    {
+      id: 'a1',
+      title: 'Mock Card',
+      assignTo: 'kong',
+      label: 'epic',
+      priority: 'low',
+    },
+    {
+      id: 'a2',
+      title: 'config husky & commitlint',
+      assignTo: 'kong',
+      label: 'epic',
+      priority: 'low',
+    },
+    {
+      id: 'a3',
+      title: 'config github actions',
+      assignTo: 'kong',
+      label: 'epic',
+      priority: 'low',
+    },
+    {
+      id: 'a4',
+      title: 'config tailwindcss & apollo',
+      assignTo: 'kong',
+      label: 'epic',
+      priority: 'low',
+    },
+  ],
+  Doing: [
+    {
+      id: 'b1',
+      title: 'use dnd',
+      assignTo: 'kong',
+      label: 'epic',
+      priority: 'low',
+    },
+    {
+      id: 'b2',
+      title: 'create layout',
+      assignTo: 'kong',
+      label: 'epic',
+      priority: 'low',
+    },
+    {
+      id: 'b3',
+      title: 'remove collisionDetection',
+      assignTo: 'kong',
+      label: 'epic',
+      priority: 'low',
+    },
+    {
+      id: 'b4',
+      title: 'refactor column',
+      assignTo: 'kong',
+      label: 'epic',
+      priority: 'low',
+    },
+  ],
+  Done: [
+    {
+      id: 'c1',
+      title: 'refactor card with hook',
+      assignTo: 'kong',
+      label: 'epic',
+      priority: 'low',
+    },
+    {
+      id: 'c2',
+      title: 'setup backend with nestjs',
+      assignTo: 'kong',
+      label: 'epic',
+      priority: 'low',
+    },
+    {
+      id: 'c3',
+      title: 'setup relay',
+      assignTo: 'kong',
+      label: 'epic',
+      priority: 'low',
+    },
+    {
+      id: 'c4',
+      title: 'deploy with docker',
+      assignTo: 'kong',
+      label: 'epic',
+      priority: 'low',
+    },
+  ],
+}

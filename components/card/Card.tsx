@@ -6,9 +6,8 @@ import styles from './Card.module.scss'
 import { CardProps } from './Card.types'
 import { useCardSortable } from './useCardSortable'
 
-const Card = memo((cardProps: CardProps) => {
-  const { value, index } = cardProps
-  const { id } = value
+const Card = memo(({ card }: CardProps) => {
+  const { id, label, priority, title, assignTo } = card
   const {
     setNodeRef,
     isDragging,
@@ -18,29 +17,31 @@ const Card = memo((cardProps: CardProps) => {
     mountedWhileDragging,
     listeners,
   } = useCardSortable({ id: id as string })
-  const cardClassName = classNames(
-    styles.card,
+  const wrapperClassName = classNames(
+    styles.wrapper,
     mountedWhileDragging && styles.fadeIn,
     isSorting && styles.sorting
   )
-  const containerStyle = {
+  const wrapperStyle = {
     transition,
     '--translate-x': transform ? `${Math.round(transform.x)}px` : undefined,
     '--translate-y': transform ? `${Math.round(transform.y)}px` : undefined,
-    '--scale-x': transform?.scaleX ? `${transform.scaleX}` : undefined,
-    '--scale-y': transform?.scaleY ? `${transform.scaleY}` : undefined,
-    '--index': index,
   } as CSSProperties
 
-  const divClassName = classNames(styles.item, isDragging && styles.dragging)
+  const cardClassName = classNames(styles.card, isDragging && styles.dragging)
   return (
-    <li className={cardClassName} style={containerStyle} ref={setNodeRef}>
+    <li className={wrapperClassName} style={wrapperStyle} ref={setNodeRef}>
       <div
-        className={divClassName}
+        className={cardClassName}
         data-cypress="draggable-item"
         {...listeners}
       >
-        {value.title}
+        <p className={styles.title}>{title}</p>
+        <section className={styles.details}>
+          <div className={styles.label}>{label}</div>
+          <div className={styles.priority}>{priority}</div>
+          <div className={styles.assignTo}>{assignTo}</div>
+        </section>
       </div>
     </li>
   )

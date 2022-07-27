@@ -3,7 +3,7 @@ import type { UniqueIdentifier } from '@dnd-kit/core'
 export type CardDTO = {
   id: UniqueIdentifier
   title: string
-  description: string
+  assignTo: string
   label: string
   priority: string
 }
@@ -13,6 +13,5 @@ export type CardSortableProps = {
 }
 
 export type CardProps = {
-  index: number
-  value: CardDTO
+  card: CardDTO
 }
