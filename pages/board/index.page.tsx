@@ -24,8 +24,8 @@ const Board = () => {
               items={columns[columnName].map((e) => e.id)}
               strategy={verticalListSortingStrategy}
             >
-              {columns[columnName].map((value, index) => (
-                <Card key={value.id} value={value} index={index} />
+              {columns[columnName].map((card) => (
+                <Card key={card.id} card={card} />
               ))}
             </SortableContext>
           </Column>

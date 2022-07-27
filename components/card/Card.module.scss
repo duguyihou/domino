@@ -11,8 +11,8 @@ $box-shadow: $box-shadow-border, $box-shadow-common;
   }
 }
 
-.card {
-  @apply box-border flex justify-start items-start;
+.wrapper {
+  @apply cursor-pointer;
   @apply touch-manipulation origin-top-left;
   transform: translate3d(var(--translate-x, 0), var(--translate-y, 0), 0)
     scaleX(var(--scale-x, 1)) scaleY(var(--scale-y, 1));
@@ -22,10 +22,10 @@ $box-shadow: $box-shadow-border, $box-shadow-common;
   }
 }
 
-.item {
-  @apply relative flex flex-grow items-center h-fit p-2 mb-1;
-  @apply bg-white shadow-sm outline-none box-border;
-  @apply font-normal list-none text-gray-400 text-base whitespace-nowrap;
+.card {
+  @apply relative flex flex-col w-full justify-center items-center h-fit p-2 mb-1;
+  @apply bg-white shadow-sm outline-none;
+  @apply list-none text-gray-400 text-base;
   @apply origin-center transition-shadow;
   border-radius: calc(4px / var(--scale-x, 1));
 
@@ -33,4 +33,22 @@ $box-shadow: $box-shadow-border, $box-shadow-common;
 
   transform: scale(var(--scale, 1));
   @apply focus-visible:shadow-sm focus-visible:shadow-cyan-600;
+
+  .title {
+    @apply text-left w-full p-1 text-black text-sm;
+  }
+  .details {
+    @apply w-full flex flex-row justify-between items-center;
+
+    .label {
+      @apply bg-lime-500 rounded-md px-4;
+      @apply text-white text-xs h-fit;
+    }
+    .priority {
+      @apply text-xs ml-1 mr-auto;
+    }
+    .assignTo {
+      @apply text-xs;
+    }
+  }
 }
