@@ -33,6 +33,7 @@ $box-shadow: $box-shadow-border, $box-shadow-common;
 
   transform: scale(var(--scale, 1));
   @apply focus-visible:shadow-sm focus-visible:shadow-cyan-600;
+  @apply hover:bg-slate-50;
 
   .title {
     @apply text-left w-full p-1 text-black text-sm;

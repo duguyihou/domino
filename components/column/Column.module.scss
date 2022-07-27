@@ -16,20 +16,5 @@
 .header {
   @apply flex justify-between items-center;
   @apply py-1 pl-5 pr-2 bg-white;
-  @apply rounded-t-md;
-
-  &:hover {
-    .actions > * {
-      opacity: 1 !important;
-    }
-  }
-}
-
-.actions {
-  @apply flex;
-
-  .remove {
-    @apply opacity-0;
-    @apply focus-visible:opacity-100;
-  }
+  @apply rounded-t-md cursor-pointer;
 }
