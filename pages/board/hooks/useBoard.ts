@@ -1,25 +1,32 @@
 import { useRef, useState } from 'react'
 
-import { MeasuringStrategy } from '@dnd-kit/core'
-import type { UniqueIdentifier } from '@dnd-kit/core'
+import type { DragOverEvent, DragEndEvent } from '@dnd-kit/core'
+import {
+  MeasuringStrategy,
+  KeyboardSensor,
+  MouseSensor,
+  TouchSensor,
+  useSensors,
+  useSensor,
+} from '@dnd-kit/core'
+import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable'
 
 import { ColumnsDTO } from '../../../components/column'
-import { useBoardSensors } from './useBoardSensors'
-import { useOnDragCancel } from './useOnDragCancel'
-import { useOnDragEnd } from './useOnDragEnd'
-import { useOnDragOver } from './useOnDragOver'
-import { useOnDragStart } from './useOnDragStart'
+import { findContainer } from '../../../utils/findContainer'
 
 export const useBoard = (initialColumns: ColumnsDTO) => {
   const [columns, setColumns] = useState<ColumnsDTO>(initialColumns)
   const [columnNames, setColumnNames] = useState(Object.keys(columns))
-  const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null)
   const recentlyMovedToNewContainer = useRef(false)
   const [clonedColumns, setClonedColumns] = useState<ColumnsDTO | null>(null)
-  const isSortingContainer = activeId
-    ? columnNames.includes(activeId as string)
-    : false
-  const sensors = useBoardSensors()
+
+  const sensors = useSensors(
+    useSensor(MouseSensor),
+    useSensor(TouchSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  )
 
   const measuring = {
     droppable: {
@@ -27,22 +34,104 @@ export const useBoard = (initialColumns: ColumnsDTO) => {
     },
   }
   // onDragStart
-  const onDragStartArgs = { setActiveId, setClonedColumns, columns }
-  const onDragStart = useOnDragStart({ onDragStartArgs })
+  const onDragStart = () => setClonedColumns(columns)
+
   // onDragOver
-  const onDragOverArgs = { columns, setColumns, recentlyMovedToNewContainer }
-  const onDragOver = useOnDragOver({ onDragOverArgs })
-  // onDragEnd
-  const onDragEndArgs = { setActiveId, setColumnNames, columns, setColumns }
-  const onDragEnd = useOnDragEnd({ onDragEndArgs })
-  // onDragCancel
-  const onDragCancelArgs = {
-    setActiveId,
-    setClonedColumns,
-    setColumns,
-    clonedColumns,
+  const onDragOver = ({ active, over }: DragOverEvent) => {
+    const overId = over?.id
+    if (!overId || active.id in columns) return
+
+    const overContainer = findContainer(overId, columns)
+    const activeContainer = findContainer(active.id, columns)
+
+    if (!overContainer || !activeContainer) return
+
+    if (activeContainer !== overContainer) {
+      setColumns((columns) => {
+        const activeItems = columns[activeContainer]
+        const overItems = columns[overContainer]
+        const activeItemIds = activeItems.map(({ id }) => id)
+        const overItemIds = overItems.map(({ id }) => id)
+        const overIndex = overItemIds.indexOf(overId as string)
+        const activeIndex = activeItemIds.indexOf(active.id as string)
+
+        let newIndex: number
+
+        if (overId in columns) {
+          newIndex = overItems.length + 1
+        } else {
+          const isBelowOverItem =
+            over &&
+            active.rect.current.translated &&
+            active.rect.current.translated.top >
+              over.rect.top + over.rect.height
+          const modifier = isBelowOverItem ? 1 : 0
+
+          newIndex =
+            overIndex >= 0 ? overIndex + modifier : overItems.length + 1
+        }
+
+        recentlyMovedToNewContainer.current = true
+
+        return {
+          ...columns,
+          [activeContainer]: columns[activeContainer].filter(
+            (item) => item.id !== active.id
+          ),
+          [overContainer]: [
+            ...columns[overContainer].slice(0, newIndex),
+            columns[activeContainer][activeIndex],
+            ...columns[overContainer].slice(
+              newIndex,
+              columns[overContainer].length
+            ),
+          ],
+        }
+      })
+    }
   }
-  const onDragCancel = useOnDragCancel({ onDragCancelArgs })
+  // onDragEnd
+  const onDragEnd = ({ active, over }: DragEndEvent) => {
+    if (!columns) return
+    if (active.id in columns && over?.id) {
+      setColumnNames((containers) => {
+        const activeIndex = containers.indexOf(active.id as string)
+        const overIndex = containers.indexOf(over.id as string)
+
+        return arrayMove(containers, activeIndex, overIndex)
+      })
+    }
+
+    const activeContainer = findContainer(active.id, columns)
+    if (!activeContainer) return
+    const overId = over?.id
+    if (!overId) return
+    const overContainer = findContainer(overId, columns)
+    if (overContainer) {
+      const activeIndex = columns[activeContainer]
+        .map((card) => card.id)
+        .indexOf(active.id)
+      const overIndex = columns[overContainer]
+        .map((card) => card.id)
+        .indexOf(overId as string)
+
+      if (activeIndex !== overIndex) {
+        setColumns((columns) => ({
+          ...columns,
+          [overContainer]: arrayMove(
+            columns[overContainer],
+            activeIndex,
+            overIndex
+          ),
+        }))
+      }
+    }
+  }
+  // onDragCancel
+  const onDragCancel = () => {
+    if (clonedColumns) setColumns(clonedColumns)
+    setClonedColumns(null)
+  }
 
   const dndContextConfig = {
     sensors,
@@ -56,6 +145,5 @@ export const useBoard = (initialColumns: ColumnsDTO) => {
     dndContextConfig,
     columnNames,
     columns,
-    isSortingContainer,
   }
 }
