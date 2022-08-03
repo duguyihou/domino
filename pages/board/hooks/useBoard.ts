@@ -14,8 +14,8 @@ import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable'
 import { ColumnsDTO } from '../../../components/column'
 import { findContainer } from '../../../utils/findContainer'
 
-export const useBoard = (initialColumns: ColumnsDTO) => {
-  const [columns, setColumns] = useState<ColumnsDTO>(initialColumns)
+export const useBoard = (data: any) => {
+  const [columns, setColumns] = useState<ColumnsDTO>(data?.initialColumns)
   const [columnNames, setColumnNames] = useState(Object.keys(columns))
   const recentlyMovedToNewContainer = useRef(false)
   const [clonedColumns, setClonedColumns] = useState<ColumnsDTO | null>(null)

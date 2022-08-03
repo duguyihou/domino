@@ -10,3 +10,14 @@ export const GET_LOCATIONS = gql`
     }
   }
 `
+export const GET_COLUMNS = gql`
+  query GetColumns {
+    columns {
+      id
+      title
+      assignTo
+      label
+      priority
+    }
+  }
+`

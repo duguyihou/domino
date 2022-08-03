@@ -5,12 +5,15 @@ import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 
 import { Card } from '../../components/card'
 import { Column } from '../../components/column'
-import { initialColumns } from '../../mock'
 import styles from './board.module.scss'
-import { useBoard } from './hooks'
+import { useBoard, useGetColumns } from './hooks'
 
 const Board = () => {
-  const { dndContextConfig, columnNames, columns } = useBoard(initialColumns)
+  const { loading, error, data } = useGetColumns()
+
+  const { dndContextConfig, columnNames, columns } = useBoard(data)
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>Error :(</p>
   const Columns = () => {
     return (
       <>
